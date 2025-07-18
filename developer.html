@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Developer Panel - Plug & Play Shop</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Simple styling for developer panel */
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #121212;
+      color: #eee;
+      margin: 0; padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #0af;
+    }
+    #loginSection, #panelSection {
+      max-width: 900px;
+      margin: 0 auto;
+      background: #1e1e1e;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px #0af;
+    }
+    input, select, textarea, button {
+      font-size: 1rem;
+      padding: 8px;
+      margin: 6px 0;
+      border-radius: 5px;
+      border: none;
+      outline: none;
+    }
+    input, select, textarea {
+      width: 100%;
+      box-sizing: border-box;
+    }
+    textarea {
+      resize: vertical;
+      min-height: 60px;
+    }
+    button {
+      background: #0af;
+      color: #111;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    button:hover {
+      background: #08c;
+    }
+    #messageBox {
+      text-align: center;
+      height: 1.5rem;
+      margin-bottom: 12px;
+      font-weight: bold;
+    }
+    .product-edit-container {
+      background: #292929;
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      box-shadow: inset 0 0 8px #0af33a33;
+    }
+    .product-edit-container input,
+    .product-edit-container select,
+    .product-edit-container textarea {
+      margin-bottom: 8px;
+    }
+    .product-edit-container button {
+      margin-right: 6px;
+      width: auto;
+      padding: 6px 12px;
+    }
+    .section-title {
+      font-size: 1.3rem;
+      margin-top: 20px;
+      border-bottom: 2px solid #0af;
+      padding-bottom: 4px;
+    }
+    #addProductBtn {
+      display: block;
+      margin: 20px auto;
+      max-width: 200px;
+      font-weight: bold;
+    }
+    label {
+      font-weight: 600;
+      display: block;
+      margin-top: 12px;
+      margin-bottom: 4px;
+    }
+    .settings-group {
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Developer Panel - Plug & Play Shop</h1>
+
+  <div id="messageBox"></div>
+
+  <section id="loginSection">
+    <label for="devPin">Enter Developer PIN:</label>
+    <input type="password" id="devPin" autocomplete="off" />
+    <button id="unlockBtn">Unlock Panel</button>
+  </section>
+
+  <section id="panelSection" style="display:none;">
+    <button id="logoutBtn" style="float:right; background:#f33; color:#fff;">Logout</button>
+
+    <div class="settings-group">
+      <h2 class="section-title">Store Settings</h2>
+
+      <label for="storeName">Store Name:</label>
+      <input id="storeName" type="text" placeholder="Store name" />
+
+      <label for="businessEmail">Business Email:</label>
+      <input id="businessEmail" type="email" placeholder="contact@example.com" />
+
+      <label for="deliveryDisclaimer">Delivery Disclaimer:</label>
+      <textarea id="deliveryDisclaimer" placeholder="e.g. Delivery times vary..."></textarea>
+
+      <label for="footerMessage">Footer Message:</label>
+      <input id="footerMessage" type="text" placeholder="Footer message" />
+
+      <label for="siteTitle">Site Title (SEO):</label>
+      <input id="siteTitle" type="text" placeholder="Page title" />
+
+      <label for="siteDescription">Site Description (SEO):</label>
+      <textarea id="siteDescription" placeholder="Meta description"></textarea>
+    </div>
+
+    <div class="settings-group">
+      <h2 class="section-title">Design & Theme Settings</h2>
+
+      <label for="themeSelect">Theme:</label>
+      <select id="themeSelect">
+        <option value="light">Light (Default)</option>
+        <option value="neon-blue">Neon Blue</option>
+        <option value="dark-neon-red">Dark Neon Red</option>
+      </select>
+
+      <label for="fontSizeBody">Font Size - Body (e.g. 16px):</label>
+      <input id="fontSizeBody" type="text" />
+
+      <label for="fontSizeHeaders">Font Size - Headers (e.g. 24px):</label>
+      <input id="fontSizeHeaders" type="text" />
+
+      <label for="fontSizeButtons">Font Size - Buttons (e.g. 16px):</label>
+      <input id="fontSizeButtons" type="text" />
+
+      <label for="spacingControl">Spacing:</label>
+      <select id="spacingControl">
+        <option value="normal">Normal</option>
+        <option value="compact">Compact</option>
+        <option value="spacious">Spacious</option>
+      </select>
+
+      <label for="buttonStyleSelect">Button Style:</label>
+      <select id="buttonStyleSelect">
+        <option value="flat">Flat</option>
+        <option value="rounded">Rounded</option>
+        <option value="outlined">Outlined</option>
+      </select>
+
+      <label>
+        <input type="checkbox" id="shadowToggle" /> Enable Shadows
+      </label>
+    </div>
+
+    <div>
+      <h2 class="section-title">Manage Products</h2>
+      <button id="addProductBtn">Add New Product</button>
+      <div id="productList">Loading products...</div>
+    </div>
+
+  </section>
+
+  <script src="js/developer.js"></script>
+</body>
+</html>
