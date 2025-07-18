@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FAQ - Plug & Play</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="header">
+    <div class="logo">❓ FAQ</div>
+    <nav class="navbar">
+      <a href="index.html">Shop</a>
+      <a href="cart.html">Cart</a>
+      <a href="themes.html">Themes</a>
+      <a href="developer.html">Developer</a>
+    </nav>
+  </header>
+
+  <main class="faq-main">
+    <h1>Frequently Asked Questions</h1>
+
+    <div class="faq-item">
+      <h2>When will I receive my game account?</h2>
+      <p>Usually within 2–24 hours by email. We send it manually to ensure quality and security.</p>
+    </div>
+
+    <div class="faq-item">
+      <h2>When will electronics be delivered?</h2>
+      <p>Delivery time depends on the product. Check the product page or contact us for more info.</p>
+    </div>
+
+    <div class="faq-item">
+      <h2>Do you offer refunds?</h2>
+      <p>All sales are final. Please read the product description carefully before purchasing.</p>
+    </div>
+
+    <div class="faq-item">
+      <h2>How can I contact support?</h2>
+      <p>Email us at <strong id="faq-email">plugandplay@example.com</strong>. We reply within 24 hours.</p>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p>&copy; 2025 Plug & Play Shop • FAQ</p>
+  </footer>
+
+  <script>
+    // Auto-load business email from localStorage
+    const email = localStorage.getItem('businessEmail') || 'plugandplay@example.com';
+    document.getElementById('faq-email').textContent = email;
+  </script>
+</body>
+</html>
