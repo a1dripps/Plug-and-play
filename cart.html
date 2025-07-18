@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Plug & Play Shop - Cart</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header>
+    <nav class="top-nav">
+      <a href="index.html" class="logo">Plug & Play Shop</a>
+      <ul class="nav-links">
+        <li><a href="index.html#shop">Shop</a></li>
+        <li><a href="themes.html">Themes</a></li>
+        <li><a href="developer.html">Developer</a></li>
+        <li><a href="search.html">Search</a></li>
+        <li><a href="support.html">Support</a></li>
+        <li><a href="login.html">Log In</a></li>
+        <li><a href="signup.html">Sign Up</a></li>
+      </ul>
+      <a href="cart.html" class="cart-link">🛒 Cart</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="cart-section">
+      <h1>Your Basket</h1>
+      <div id="cart-items" class="cart-items"></div>
+      <div class="cart-total-container">
+        <strong>Total: $<span id="cart-total">0.00</span></strong>
+      </div>
+      <button id="checkout-btn" class="btn-primary" onclick="window.location.href='checkout.html'">Checkout</button>
+    </section>
+  </main>
+
+  <script src="js/cart.js"></script>
+</body>
+</html>
