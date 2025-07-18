@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Search Products - Plug & Play Shop</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="js/store.js" defer></script>
+  <script src="js/themes.js" defer></script>
+</head>
+<body>
+  <header>
+    <h1>🔍 Search Products</h1>
+    <nav>
+      <a href="index.html">🏪 Shop</a>
+      <a href="cart.html">🛒 Cart</a>
+      <a href="themes.html">🎨 Themes</a>
+      <a href="developer.html">👨‍💻 Developer</a>
+    </nav>
+  </header>
+
+  <main class="search-container">
+    <input type="text" id="searchInput" placeholder="Search products..." onkeyup="searchProducts()" />
+    <div id="searchResults" class="product-list"></div>
+  </main>
+
+  <footer>
+    <p>© 2025 Plug & Play Shop</p>
+  </footer>
+
+  <script>
+    function searchProducts() {
+      const query = document.getElementById('searchInput').value.toLowerCase();
+      const resultsContainer = document.getElementById('searchResults');
+      const products = JSON.parse(localStorage.getItem('products') || '[]');
+
+      const filtered = products.filter(product =>
+        product.name.toLowerCase().includes(query)
+      );
+
+      resultsContainer.innerHTML = filtered.length
+        ? filtered.map(p => `
+          <div class="product-card">
+            <img src="${p.image}" alt="${p.name}" />
+            <h3>${p.name}</h3>
+            <p>${p.description}</p>
+            <p><strong>£${p.price}</strong></p>
+            <button onclick="location.href='checkout.html?product=${encodeURIComponent(p.name)}'">Buy Now</button>
+            <button onclick="addToCart('${p.name}')">Add to Basket</button>
+          </div>
+        `).join('')
+        : '<p>No products found.</p>';
+    }
+  </script>
+</body>
+</html>
