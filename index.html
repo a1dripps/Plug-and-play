@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Plug & Play Shop</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
+  <script src="themes.js" defer></script>
+  <script src="js/store.js" defer></script>
+</head>
+<body>
+  <header class="header">
+    <div class="logo">🎮 Plug & Play</div>
+    <nav class="navbar">
+      <a href="index.html">Shop</a>
+      <a href="search.html">Search</a>
+      <a href="themes.html">Themes</a>
+      <a href="support.html">Support</a>
+      <a href="developer.html">Developer</a>
+      <a href="#" id="loginBtn">Log In</a>
+      <a href="#" id="signupBtn">Sign Up</a>
+      <a href="cart.html" class="cart-link">🛒 <span id="cartCount"></span></a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h1>Welcome to Plug & Play Shop<br><span>Where your dreams come to life</span></h1>
+  </section>
+
+  <section id="shopSection">
+    <h2 class="section-title">🛍️ Browse Products</h2>
+    <div id="productsContainer" class="products-grid">
+      <!-- Products dynamically loaded here -->
+    </div>
+  </section>
+
+  <footer class="footer">
+    <p>&copy; 2025 Plug & Play. All rights reserved.</p>
+  </footer>
+
+  <div id="authPopup" class="popup hidden">
+    <div class="popup-content">
+      <h3>Login / Sign Up</h3>
+      <input type="text" id="authEmail" placeholder="Email" />
+      <input type="password" id="authPassword" placeholder="Password" />
+      <button id="authSubmit">Submit</button>
+      <button id="closePopup">Close</button>
+    </div>
+  </div>
+
+  <script>
+    // Simple Login/Signup popup (non-auth, just UI)
+    const loginBtn = document.getElementById('loginBtn');
+    const signupBtn = document.getElementById('signupBtn');
+    const authPopup = document.getElementById('authPopup');
+    const closePopup = document.getElementById('closePopup');
+
+    loginBtn.onclick = signupBtn.onclick = () => authPopup.classList.remove('hidden');
+    closePopup.onclick = () => authPopup.classList.add('hidden');
+  </script>
+</body>
+</html>
