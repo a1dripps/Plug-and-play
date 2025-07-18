@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en" class="theme-light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Checkout - Plug & Play Shop</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="store.js" defer></script>
+  <script src="themes.js" defer></script>
+  <style>
+    body {
+      max-width: 600px;
+      margin: 2rem auto;
+      padding: 1rem;
+      font-family: 'Orbitron', sans-serif;
+      background-color: var(--background);
+      color: var(--text);
+    }
+    h1 {
+      font-size: 2.5rem;
+      text-align: center;
+      margin-bottom: 2rem;
+      text-shadow: 0 0 6px var(--accent);
+    }
+    form {
+      background-color: var(--card-bg);
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: 0 0 15px var(--shadow);
+    }
+    label {
+      display: block;
+      margin-bottom: 0.3rem;
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+    input[type="email"] {
+      width: 100%;
+      padding: 0.6rem 0.8rem;
+      margin-bottom: 1.5rem;
+      border-radius: 8px;
+      border: 2px solid var(--accent);
+      font-size: 1.1rem;
+      color: var(--text);
+      background-color: var(--input-bg);
+      box-shadow: inset 0 0 6px var(--shadow);
+      transition: border-color 0.3s ease;
+    }
+    input[type="email"]:focus {
+      border-color: var(--accent-hover);
+      outline: none;
+    }
+    .delivery-info {
+      margin-bottom: 1.5rem;
+      font-size: 1rem;
+      color: var(--accent);
+      font-weight: 600;
+    }
+    #orderSummary {
+      margin-bottom: 1.5rem;
+      border: 1px solid var(--accent);
+      border-radius: 8px;
+      padding: 1rem;
+      background-color: var(--background-alt);
+      max-height: 200px;
+      overflow-y: auto;
+    }
+    #orderSummary h2 {
+      font-size: 1.3rem;
+      margin-bottom: 0.8rem;
+      color: var(--accent);
+    }
+    #orderSummary ul {
+      list-style: none;
+      padding-left: 0;
+      margin: 0;
+    }
+    #orderSummary ul li {
+      margin-bottom: 0.4rem;
+      font-weight: 600;
+    }
+    .total-price {
+      margin-top: 1rem;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--accent);
+      text-align: right;
+    }
+    button[type="submit"] {
+      width: 100%;
+      background-color: var(--accent);
+      color: var(--button-text);
+      padding: 1rem;
+      font-size: 1.5rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      box-shadow: 0 0 12px var(--accent);
+      transition: background-color 0.3s ease;
+    }
+    button[type="submit"]:hover {
+      background-color: var(--accent-hover);
+    }
+    .error-msg {
+      color: var(--danger);
+      margin-bottom: 1rem;
+      font-weight: 700;
+      display: none;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <h1>Checkout</h1>
+  <form id="checkoutForm" novalidate>
+    <label for="emailInput">Email Address</label>
+    <input type="email" id="emailInput" placeholder="you@example.com" required />
+    <div id="emailError" class="error-msg">Please enter a valid email address.</div>
+
+    <div class="delivery-info" id="deliveryInfo"></div>
+
+    <div id="orderSummary">
+      <h2>Order Summary</h2>
+      <ul id="orderList"></ul>
+      <div class="total-price" id="totalPrice"></div>
+    </div>
+
+    <button type="submit">Proceed to Payment</button>
+  </form>
+
+  <script>
+    const cartKey = 'plugAndPlayCart';
+
+    function loadCart() {
+      const cartData = localStorage.getItem(cartKey);
+      return cartData ? JSON.parse(cartData) : [];
+    }
+
+    function formatPrice(num) {
+      return '$' + num.toFixed(2);
+    }
+
+    function validateEmail(email) {
+      // Simple regex for basic validation
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    }
+
+    function calculateDeliveryTime(cart) {
+      let accountMax = 0;
+      let electronicsMax = 0;
+      cart.forEach(item => {
+        if(item.type === 'account') {
+          // Delivery time range for accounts fixed 2-24h
+          accountMax = Math.max(accountMax, 24);
+        } else if(item.type === 'electronics') {
+          // Customizable delivery time from developer panel saved to localStorage under 'deliveryElectronics' or default 72h
+          const deliveryHours = parseInt(localStorage.getItem('deliveryElectronics')) || 72;
+          electronicsMax = Math.max(electronicsMax, deliveryHours);
+        }
+      });
+      let parts = [];
+      if(accountMax > 0) parts.push(`Game accounts: 2-24 hours`);
+      if(electronicsMax > 0) parts.push(`Electronics: Up to ${electronicsMax} hours`);
+      return parts.join(' | ');
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const cart = loadCart();
+      const orderList = document.getElementById('orderList');
+      const totalPriceEl = document.getElementById('totalPrice');
+      const deliveryInfo = document.getElementById('deliveryInfo');
+      const emailInput = document.getElementById('emailInput');
+      const emailError = document.getElementById('emailError');
+      const checkoutForm = document.getElementById('checkoutForm');
+
+      if(cart.length === 0) {
+        orderList.innerHTML = '<li>Your cart is empty.</li>';
+        totalPriceEl.textContent = '';
+        deliveryInfo.textContent = '';
+        emailInput.disabled = true;
+        checkoutForm.querySelector('button[type="submit"]').disabled = true;
+        return;
+      }
+
+      // Render order summary list
+      orderList.innerHTML = '';
+      let total = 0;
+      cart.forEach(item => {
+        total += item.price * item.quantity;
+        const li = document.createElement('li');
+        li.textContent = `${item.name} x${item.quantity} - ${formatPrice(item.price * item.quantity)}`;
+        orderList.appendChild(li);
+      });
+      totalPriceEl.textContent = `Total: ${formatPrice(total)}`;
+
+      // Show delivery info
+      deliveryInfo.textContent = calculateDeliveryTime(cart);
+
+      checkoutForm.addEventListener('submit', e => {
+        e.preventDefault();
+        emailError.style.display = 'none';
+        const emailVal = emailInput.value.trim();
+
+        if(!validateEmail(emailVal)) {
+          emailError.style.display = 'block';
+          return;
+        }
+
+        // Save email for use after payment or in order confirmation
+        localStorage.setItem('customerEmail', emailVal);
+
+        // Redirect to Stripe or payment page URL saved in developer panel as 'stripeCheckoutURL'
+        // For demo, just alert and clear cart:
+        const stripeURL = localStorage.getItem('stripeCheckoutURL') || 'https://stripe.com'; // Placeholder
+
+        // Here you would implement Stripe checkout redirect or embed
+        // For now, simulate redirect:
+        alert(`Thank you, ${emailVal}! Redirecting to payment page...`);
+        // Clear cart after checkout starts
+        localStorage.removeItem(cartKey);
+        window.location.href = stripeURL;
+      });
+    });
+  </script>
+</body>
+</html>
