@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en" class="theme-light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Plug & Play Shop</title>
+  <link rel="stylesheet" href="style.css" />
+  <script defer src="themes.js"></script>
+  <script defer src="script.js"></script>
+  <style>
+    body { margin: 0; font-family: 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); }
+    header { display: flex; align-items: center; justify-content: space-between; padding: 1rem; background: var(--header-bg); }
+    .hamburger { font-size: 1.5rem; cursor: pointer; }
+    nav { position: fixed; top: 0; left: -100%; width: 70%; max-width: 300px; height: 100%; background: var(--header-bg); padding: 2rem 1rem; transition: left 0.3s ease; z-index: 1000; }
+    nav.show { left: 0; }
+    nav a { display: block; margin: 1rem 0; font-weight: bold; color: var(--text); text-decoration: none; }
+    .overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 999; }
+    .overlay.show { display: block; }
+    h1 { text-align: center; font-size: 1.8rem; padding: 1rem; }
+    .top-buttons { position: absolute; top: 1rem; right: 1rem; display: flex; gap: 0.5rem; }
+    .top-buttons button { padding: 0.5rem 1rem; font-size: 0.9rem; cursor: pointer; }
+    #shop { padding: 2rem 1rem; text-align: center; }
+    #products { display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; }
+    .product-card { background: var(--card-bg); color: var(--text); border-radius: 8px; width: 280px; padding: 1rem; box-shadow: var(--shadow); }
+    .product-card img { width: 100%; border-radius: 6px; }
+    .product-card h3 { margin: 0.5rem 0; }
+    .product-card button { margin-top: 0.5rem; padding: 0.5rem; width: 100%; font-size: 1rem; cursor: pointer; background: var(--btn-bg); color: var(--btn-text); border: none; border-radius: 4px; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="hamburger" onclick="toggleSidebar()">☰</div>
+    <h1 style="margin: 0;">Plug & Play Shop</h1>
+    <div class="top-buttons">
+      <button onclick="openPopup('login')">Login</button>
+      <button onclick="openPopup('signup')">Sign Up</button>
+      <button onclick="scrollToSection('cart')">🛒</button>
+    </div>
+  </header>
+
+  <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+  <nav id="sidebar">
+    <a href="#" onclick="scrollToSection('shop')">Shop</a>
+    <a href="#" onclick="scrollToSection('search')">Search</a>
+    <a href="#" onclick="scrollToSection('support')">Support</a>
+    <a href="#" onclick="scrollToSection('themes')">Themes</a>
+    <a href="developer.html">Developer</a>
+  </nav>
+
+  <section style="text-align:center; padding: 2rem;">
+    <h2>Welcome to Plug & Play Shop where your dreams come to life</h2>
+    <button onclick="scrollToSection('shop')" style="padding: 1rem; font-size: 1.2rem;">Shop</button>
+  </section>
+
+  <section id="shop">
+    <h2 style="text-align:center;">Browse Products</h2>
+    <div id="products"></div>
+  </section>
+
+  <section id="cart" style="display:none;"></section>
+
+  <section id="search" style="padding: 2rem;">
+    <h2>Search</h2>
+    <input type="text" placeholder="Search products..." oninput="searchProducts(this.value)" style="width:100%; padding: 0.5rem;">
+  </section>
+
+  <section id="support" style="padding: 2rem;">
+    <h2>Support</h2>
+    <p>Email us at: <span id="supportEmail">support@plugandplayshop.com</span></p>
+    <p>Replies usually arrive within a few minutes to a few hours.</p>
+  </section>
+
+  <section id="themes" style="padding: 2rem;">
+    <h2>Choose Theme</h2>
+    <select onchange="changeTheme(this.value)">
+      <option value="light">Light</option>
+      <option value="neon-blue">Neon Blue</option>
+      <option value="dark-red">Dark Neon Red</option>
+    </select>
+  </section>
+
+  <!-- Login/Signup Popups -->
+  <div id="popup-container" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:#00000080; z-index:9999; align-items:center; justify-content:center;">
+    <div style="background:#fff; padding:2rem; border-radius:10px; width:90%; max-width:400px;" id="popup-box">
+      <h3 id="popup-title">Login</h3>
+      <input type="text" placeholder="Email" style="width:100%; padding:0.5rem; margin-top:1rem;"><br>
+      <input type="password" placeholder="Password" style="width:100%; padding:0.5rem; margin-top:1rem;"><br>
+      <button onclick="closePopup()" style="margin-top:1rem;">Submit</button>
+    </div>
+  </div>
+
+<script>
+  const defaultProducts = [
+    { id: 1, name: 'Epic Game Account', price: 25, type: 'account', description: 'A rare epic game account.', enabled: true, deliveryTime: '2-24 hours', image: 'https://via.placeholder.com/300x200?text=Game+Account' },
+    { id: 2, name: 'Pro Gaming Mouse', price: 75, type: 'physical', description: 'High precision gaming mouse.', enabled: true, deliveryTime: '3-7 days', image: 'https://via.placeholder.com/300x200?text=Gaming+Mouse' },
+    { id: 3, name: 'Legendary Account', price: 50, type: 'account', description: 'Legendary in-game account.', enabled: true, deliveryTime: '2-24 hours', image: 'https://via.placeholder.com/300x200?text=Legendary+Account' },
+    { id: 4, name: 'Gaming Keyboard', price: 60, type: 'physical', description: 'Mechanical RGB keyboard.', enabled: true, deliveryTime: '5-10 days', image: 'https://via.placeholder.com/300x200?text=Gaming+Keyboard' },
+    { id: 5, name: 'Rare Skin Account', price: 40, type: 'account', description: 'Account with rare skins.', enabled: true, deliveryTime: '2-24 hours', image: 'https://via.placeholder.com/300x200?text=Rare+Skin' }
+  ];
+
+  function getProducts() {
+    return JSON.parse(localStorage.getItem('products')) || defaultProducts;
+  }
+
+  function renderProducts() {
+    const container = document.getElementById('products');
+    container.innerHTML = '';
+    const products = getProducts().filter(p => p.enabled);
+    for (let product of products) {
+      const card = document.createElement('div');
+      card.className = 'product-card';
+      card.innerHTML = `
+        <img src="${product.image}" alt="${product.name}">
+        <h3>${product.name}</h3>
+        <p>$${product.price}</p>
+        <button onclick="addToBasket(${product.id})">Add to Basket</button>
+        <button onclick="buyNow(${product.id})">Buy Now</button>
+      `;
+      container.appendChild(card);
+    }
+  }
+
+  function scrollToSection(id) {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: "smooth" });
+    toggleSidebar();
+  }
+
+  function toggleSidebar() {
+    document.getElementById('sidebar').classList.toggle('show');
+    document.getElementById('overlay').classList.toggle('show');
+  }
+
+  function openPopup(type) {
+    document.getElementById('popup-title').innerText = type === 'login' ? 'Login' : 'Sign Up';
+    document.getElementById('popup-container').style.display = 'flex';
+  }
+
+  function closePopup() {
+    document.getElementById('popup-container').style.display = 'none';
+  }
+
+  function addToBasket(id) {
+    alert('Added to basket (visual basket coming soon)');
+  }
+
+  function buyNow(id) {
+    alert('Proceeding to buy (Stripe redirect after email entry in next version)');
+  }
+
+  window.onload = renderProducts;
+</script>
+</body>
+</html>
