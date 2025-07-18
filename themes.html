@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Choose Theme - Plug & Play</title>
+  <link rel="stylesheet" href="style.css" />
+  <script defer src="themes.js"></script>
+  <style>
+    body {
+      font-family: 'Orbitron', sans-serif;
+      padding: 2rem;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .theme-option {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem;
+      margin: 1rem auto;
+      border: 2px solid var(--accent-color);
+      max-width: 600px;
+      border-radius: 12px;
+      transition: transform 0.3s;
+    }
+    .theme-option:hover {
+      transform: scale(1.02);
+    }
+    .theme-name {
+      font-size: 1.3rem;
+    }
+    button.select-theme {
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 6px;
+      background-color: var(--accent-color);
+      color: white;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+    .select-theme:active {
+      transform: scale(0.96);
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🎨 Choose Your Theme</h1>
+
+  <div class="theme-option">
+    <span class="theme-name">Light (Default)</span>
+    <button class="select-theme" onclick="setTheme('light')">Select</button>
+  </div>
+
+  <div class="theme-option">
+    <span class="theme-name">Neon Blue</span>
+    <button class="select-theme" onclick="setTheme('neon-blue')">Select</button>
+  </div>
+
+  <div class="theme-option">
+    <span class="theme-name">Dark Neon Red</span>
+    <button class="select-theme" onclick="setTheme('dark-red')">Select</button>
+  </div>
+
+  <script>
+    // This triggers theme immediately when user selects one
+    function setTheme(theme) {
+      localStorage.setItem('selectedTheme', theme);
+      alert('Theme "' + theme + '" selected! Reloading...');
+      location.reload();
+    }
+  </script>
+
+</body>
+</html>
