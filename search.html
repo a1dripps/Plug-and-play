@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" class="theme-light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Search | Plug & Play Shop</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="themes.js" defer></script>
+  <script src="store.js" defer></script>
+  <style>
+    body {
+      padding: 1.5rem;
+      max-width: 900px;
+      margin: auto;
+    }
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+    #searchInput {
+      width: 100%;
+      padding: 0.7rem;
+      font-size: 1rem;
+      border-radius: 8px;
+      border: 1px solid var(--accent);
+      margin-bottom: 1.5rem;
+    }
+    .product-grid {
+      display: grid;
+      gap: 1.5rem;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    }
+    .product-card {
+      background: var(--card-bg);
+      color: var(--text);
+      padding: 1rem;
+      border-radius: 10px;
+      box-shadow: var(--card-shadow);
+      transition: 0.3s ease;
+    }
+    .product-card:hover {
+      transform: translateY(-3px);
+    }
+    .product-card h3 {
+      margin: 0.5rem 0;
+      font-size: 1.1rem;
+    }
+    .product-card p {
+      font-size: 0.95rem;
+    }
+    .product-card button {
+      margin-top: 0.8rem;
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      background: var(--accent);
+      border: none;
+      color: #fff;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>Search Products</h1>
+  <input type="text" id="searchInput" placeholder="Search by name or description..." />
+
+  <div id="searchResults" class="product-grid"></div>
+
+  <script>
+    const searchInput = document.getElementById('searchInput');
+    const resultsContainer = document.getElementById('searchResults');
+
+    const getProducts = () => {
+      return JSON.parse(localStorage.getItem('products')) || [];
+    };
+
+    const displayResults = (products, query) => {
+      resultsContainer.innerHTML = '';
+      const filtered = products.filter(p =>
+        p.enabled &&
+        (p.name.toLowerCase().includes(query) ||
+         p.description.toLowerCase().includes(query))
+      );
+
+      if (filtered.length === 0) {
+        resultsContainer.innerHTML = `<p>No products match your search.</p>`;
+        return;
+      }
+
+      filtered.forEach(prod => {
+        const div = document.createElement('div');
+        div.className = 'product-card';
+        div.innerHTML = `
+          <h3>${prod.name}</h3>
+          <p>$${prod.price.toFixed(2)}</p>
+          <p>${prod.description}</p>
+          <button onclick="location.href='product.html?id=${prod.id}'">View</button>
+        `;
+        resultsContainer.appendChild(div);
+      });
+    };
+
+    searchInput.addEventListener('input', () => {
+      const query = searchInput.value.trim().toLowerCase();
+      const products = getProducts();
+      displayResults(products, query);
+    });
+
+    // Load all products on initial page load
+    window.onload = () => {
+      const products = getProducts();
+      displayResults(products, '');
+    };
+  </script>
+</body>
+</html>
