@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en" class="theme-light">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title id="siteTitle">Plug & Play Shop</title>
+<meta name="description" id="metaDescription" content="Your one-stop shop for gaming accounts and electronics." />
+<style>
+  /* Basic reset & styles */
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0; padding: 0; background: #fff; color: #222;
+    font-size: 16px;
+  }
+  header {
+    background: #0a74da; color: white; padding: 1rem;
+    text-align: center; font-size: 2rem;
+    font-weight: bold;
+  }
+  main {
+    max-width: 900px; margin: 1rem auto; padding: 0 1rem;
+  }
+  #productsContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+    gap: 1rem;
+  }
+  .product-card {
+    border: 1px solid #ccc; border-radius: 6px;
+    padding: 1rem; background: #f9f9f9;
+    display: flex; flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  }
+  .product-card h3 {
+    margin-top: 0; font-size: 1.3rem;
+  }
+  .product-card p {
+    margin: 0.5rem 0;
+  }
+  button.buy-btn {
+    background: #0a74da; color: white;
+    border: none; padding: 0.8rem 1rem;
+    font-size: 1.2rem; cursor: pointer;
+    border-radius: 4px;
+    margin-top: auto;
+  }
+  button.buy-btn:active {
+    background: #065ea8;
+  }
+  #supportSection {
+    margin-top: 2rem;
+    font-size: 1rem;
+    color: #555;
+    text-align: center;
+  }
+  #supportSection a {
+    color: #0a74da; text-decoration: none;
+  }
+  /* Theme classes */
+  .theme-light {
+    background: white; color: #222;
+  }
+  .theme-neon-blue {
+    background: #001f3f; color: #00ffff;
+  }
+  .theme-dark-red {
+    background: #330000; color: #ff3333;
+  }
+  /* Responsive big text for mobile */
+  @media (max-width: 600px) {
+    body {
+      font-size: 18px;
+    }
+    button.buy-btn {
+      font-size: 1.5rem;
+      padding: 1rem 1.2rem;
+    }
+  }
+</style>
+</head>
+<body>
+<header id="storeNameHeader">Plug & Play Shop</header>
+<main>
+  <div id="productsContainer"></div>
+
+  <section id="supportSection">
+    Support email: <a href="#" id="supportEmail">support@plugandplayshop.com</a><br />
+    <small>We respond within 24 hours.</small>
+  </section>
+</main>
+
+<script>
+  const productsKey = 'products';
+  const emailKey = 'businessEmail';
+  const themeKey = 'siteTheme';
+  const designKey = 'siteDesignSettings';
+  const storeNameKey = 'storeName';
+  const deliveryDisclaimerKey = 'deliveryDisclaimer';
+  const seoTitleKey = 'seoTitle';
+  const seoDescKey = 'seoDescription';
+
+  // Default values if localStorage empty
+  const defaultProducts = [
+    { id: 1, name: 'Epic Game Account', price: 25, type: 'account', description: 'A rare epic game account.', enabled: true, deliveryTime: '2-24 hours' },
+    { id: 2, name: 'Pro Gaming Mouse', price: 75, type: 'physical', description: 'High precision gaming mouse.', enabled: true, deliveryTime: '3-7 days' },
+    { id: 3, name: 'Legendary Account', price: 50, type: 'account', description: 'Legendary in-game account.', enabled: true, deliveryTime: '2-24 hours' },
+    { id: 4, name: 'Gaming Keyboard', price: 60, type: 'physical', description: 'Mechanical RGB keyboard.', enabled: true, deliveryTime: '5-10 days' },
+    { id: 5, name: 'Rare Skin Account', price: 40, type: 'account', description: 'Account with rare skins.', enabled: true, deliveryTime: '2-24 hours' }
+  ];
+  const defaultEmail = 'support@plugandplayshop.com';
+  const defaultTheme = 'light';
+  const defaultDesign = {
+    fontSizeBody: '16px',
+    fontSizeHeaders: '24px',
+    buttonStyle: 'flat',
+    spacingPreset: 'normal',
+    shadowsEnabled: true
+  };
+  const defaultStoreName = 'Plug & Play Shop';
+  const defaultDeliveryDisclaimer = 'Delivery times vary based on product type.';
+  const defaultSEOTitle = 'Plug & Play Shop - Gaming Accounts & Electronics';
+  const defaultSEODescription = 'Buy premium gaming accounts and quality electronics with fast delivery.';
+
+  // Load all settings from localStorage or default
+  function loadSiteData() {
+    return {
+      products: JSON.parse(localStorage.getItem(productsKey)) || defaultProducts,
+      email: localStorage.getItem(emailKey) || defaultEmail,
+      theme: localStorage.getItem(themeKey) || defaultTheme,
+      design: JSON.parse(localStorage.getItem(designKey)) || defaultDesign,
+      storeName: localStorage.getItem(storeNameKey) || defaultStoreName,
+      deliveryDisclaimer: localStorage.getItem(deliveryDisclaimerKey) || defaultDeliveryDisclaimer,
+      seoTitle: localStorage.getItem(seoTitleKey) || defaultSEOTitle,
+      seoDesc: localStorage.getItem(seoDescKey) || defaultSEODescription
+    };
+  }
+
+  // Apply theme and design styles
+  function applyThemeAndDesign(design, theme) {
+    document.documentElement.className = `theme-${theme}`;
+    document.body.style.fontSize = design.fontSizeBody;
+    // Additional style application could go here (headers font size, button style, spacing, shadows)
+    // For brevity, only font size & theme class shown here
+  }
+
+  // Render product cards dynamically
+  function renderProducts(products) {
+    const container = document.getElementById('productsContainer');
+    container.innerHTML = '';
+    products.forEach(p => {
+      if (!p.enabled) return; // skip disabled
+      const card = document.createElement('div');
+      card.className = 'product-card';
+
+      card.innerHTML = `
+        <h3>${p.name}</h3>
+        <p><strong>Price:</strong> $${p.price.toFixed(2)}</p>
+        <button class="buy-btn" data-id="${p.id}">Buy Now</button>
+        <hr />
+        <h4>Description</h4>
+        <p>${p.description}</p>
+        <p><em>Delivery Time:</em> ${p.deliveryTime}</p>
+      `;
+
+      container.appendChild(card);
+    });
+  }
+
+  // Setup buy button handlers (simple alert for demo)
+  function setupBuyButtons(products) {
+    document.querySelectorAll('button.buy-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const prodId = parseInt(btn.dataset.id);
+        const product = products.find(p => p.id === prodId);
+        if (!product) {
+          alert('Product not found.');
+          return;
+        }
+        // For physical products, prompt for full name & address (basic prompt for demo)
+        if (product.type === 'physical') {
+          const fullName = prompt('Enter your full name:');
+          if (!fullName) { alert('Name is required.'); return; }
+          const address = prompt('Enter your shipping address:');
+          if (!address) { alert('Address is required.'); return; }
+          alert(`Thank you for purchasing ${product.name}!\nWe will ship to:\n${fullName}\n${address}`);
+          // Here, you'd proceed to checkout with Stripe integration
+        } else {
+          // For accounts, just email input before checkout
+          const email = prompt('Enter your email to receive account details:');
+          if (!email || !email.includes('@')) { alert('Valid email required.'); return; }
+          alert(`Thank you for purchasing ${product.name}!\nDetails will be emailed to: ${email}`);
+          // Here, proceed to checkout with Stripe integration
+        }
+      });
+    });
+  }
+
+  // On page load, initialize everything
+  window.onload = () => {
+    const data = loadSiteData();
+
+    document.title = data.seoTitle;
+    document.getElementById('siteTitle').textContent = data.seoTitle;
+    document.getElementById('metaDescription').setAttribute('content', data.seoDesc);
+    document.getElementBy
