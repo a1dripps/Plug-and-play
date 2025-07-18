@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Checkout - Plug & Play</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="store.js" defer></script>
+</head>
+<body>
+  <header class="header">
+    <div class="logo">🛒 Checkout</div>
+    <nav class="navbar">
+      <a href="index.html">Shop</a>
+      <a href="cart.html">Cart</a>
+      <a href="themes.html">Themes</a>
+      <a href="developer.html">Developer</a>
+    </nav>
+  </header>
+
+  <main class="checkout-main">
+    <h1>Complete Your Order</h1>
+
+    <section id="checkout-items">
+      <!-- Cart items will load here -->
+    </section>
+
+    <div class="checkout-summary">
+      <label for="checkout-email">Enter your email:</label>
+      <input type="email" id="checkout-email" placeholder="you@example.com" required />
+      <button id="checkout-confirm-btn">Buy Now</button>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p>&copy; 2025 Plug & Play Shop • Checkout</p>
+  </footer>
+</body>
+</html>
