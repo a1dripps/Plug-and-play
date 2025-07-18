@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Theme Selector</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="themes.js" defer></script>
+</head>
+<body>
+  <header class="header">
+    <div class="logo">🎨 Themes</div>
+    <nav class="navbar">
+      <a href="index.html">Shop</a>
+      <a href="developer.html">Developer</a>
+      <a href="cart.html">Cart</a>
+      <a href="search.html">Search</a>
+      <a href="support.html">Support</a>
+    </nav>
+  </header>
+
+  <main class="themes-main">
+    <h1>Choose Your Theme</h1>
+
+    <div class="theme-options">
+      <div class="theme-card light-theme" data-theme="light">
+        <h3>🌞 Light</h3>
+        <p>Bright and clean default look.</p>
+      </div>
+      <div class="theme-card neon-blue-theme" data-theme="neon-blue">
+        <h3>💙 Neon Blue</h3>
+        <p>Glowing cyber look with blue highlights.</p>
+      </div>
+      <div class="theme-card dark-red-theme" data-theme="dark-red">
+        <h3>🔴 Dark Neon Red</h3>
+        <p>Bold and sharp dark theme.</p>
+      </div>
+    </div>
+
+    <button id="saveThemeBtn">💾 Save Theme</button>
+    <p id="saveStatus" class="hidden">✅ Theme saved!</p>
+  </main>
+
+  <footer class="footer">
+    <p>&copy; 2025 Plug & Play • Theme Manager</p>
+  </footer>
+</body>
+</html>
