@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" class="theme-light">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Themes - Plug & Play Shop</title>
+<link rel="stylesheet" href="style.css" />
+<script src="themes.js" defer></script>
+<style>
+  body#themes-page {
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 1rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  h1 {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  .theme-option {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+    cursor: pointer;
+  }
+  .theme-option input[type="radio"] {
+    margin-right: 1rem;
+    cursor: pointer;
+  }
+  .theme-preview {
+    flex-grow: 1;
+    padding: 1rem;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    user-select: none;
+    transition: all 0.3s ease;
+  }
+  .theme-preview.theme-light {
+    background: white;
+    color: #222;
+    border-color: #ddd;
+  }
+  .theme-preview.theme-neon-blue {
+    background: #001f3f;
+    color: #0ff;
+    border-color: #0ff;
+    text-shadow: 0 0 8px #0ff;
+  }
+  .theme-preview.theme-dark-neon-red {
+    background: #220000;
+    color: #ff4444;
+    border-color: #ff4444;
+    text-shadow: 0 0 10px #ff4444;
+  }
+  #save-theme-btn {
+    display: block;
+    margin: 2rem auto 0 auto;
+    padding: 0.8rem 2rem;
+    font-size: 1.2rem;
+    cursor: pointer;
+    background: #0078d7;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    box-shadow: 0 4px 8px rgba(0,120,215,0.4);
+    transition: background 0.3s ease;
+  }
+  #save-theme-btn:hover {
+    background: #005fa3;
+  }
+</style>
+</head>
+<body id="themes-page">
+  <h1>Choose Your Theme</h1>
+
+  <label class="theme-option" for="theme-light">
+    <input type="radio" name="theme" id="theme-light" value="light" />
+    <div class="theme-preview theme-light">Light Theme (Default)</div>
+  </label>
+
+  <label class="theme-option" for="theme-neon-blue">
+    <input type="radio" name="theme" id="theme-neon-blue" value="neonBlue" />
+    <div class="theme-preview theme-neon-blue">Neon Blue Theme</div>
+  </label>
+
+  <label class="theme-option" for="theme-dark-neon-red">
+    <input type="radio" name="theme" id="theme-dark-neon-red" value="darkNeonRed" />
+    <div class="theme-preview theme-dark-neon-red">Dark Neon Red Theme</div>
+  </label>
+
+  <button id="save-theme-btn">Save Theme</button>
+</body>
+</html>
