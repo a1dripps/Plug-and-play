@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" class="theme-light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Plug & Play Shop</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="js/themes.js" defer></script>
+</head>
+<body>
+  <header>
+    <div class="top-bar">
+      <div class="hamburger" onclick="toggleMenu()">☰</div>
+      <div class="logo">Plug & Play</div>
+      <div class="header-right">
+        <a href="login.html">Login</a>
+        <a href="signup.html">Sign Up</a>
+        <a href="cart.html" class="cart-icon">🛒</a>
+      </div>
+    </div>
+    <nav id="menu" class="hidden">
+      <a href="index.html">Shop</a>
+      <a href="search.html">Search</a>
+      <a href="themes.html">Themes</a>
+      <a href="developer.html">Developer</a>
+      <a href="support.html">Support</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h1>Welcome to Plug & Play Shop where your dreams come to life</h1>
+      <button onclick="scrollToShop()">Shop Now</button>
+    </section>
+
+    <section id="shop">
+      <h2 class="section-title">Shop</h2>
+      <div id="product-list" class="product-grid"></div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Plug & Play. All rights reserved.</p>
+  </footer>
+
+  <script>
+    function toggleMenu() {
+      document.getElementById("menu").classList.toggle("hidden");
+    }
+    function scrollToShop() {
+      document.getElementById("shop").scrollIntoView({ behavior: 'smooth' });
+    }
+  </script>
+
+  <!-- Load product & cart logic -->
+  <script src="js/store.js"></script>
+</body>
+</html>
