@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en" class="theme-light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Select Theme - Plug & Play Shop</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="themes.js" defer></script>
+  <style>
+    body {
+      padding: 2rem;
+      max-width: 800px;
+      margin: auto;
+      font-family: 'Orbitron', sans-serif;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+    .theme-option {
+      border: 2px solid transparent;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      border-radius: 8px;
+      transition: border 0.3s ease;
+      cursor: pointer;
+    }
+    .theme-option.selected {
+      border-color: #00ffff;
+      box-shadow: 0 0 10px #00ffff77;
+    }
+    .theme-preview {
+      height: 150px;
+      border-radius: 6px;
+      margin-top: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+    .theme-light-preview { background: #ffffff; color: #111; }
+    .theme-blue-preview { background: #0a0f2c; color: #00ffff; }
+    .theme-red-preview { background: #1a0000; color: #ff004c; }
+
+    button {
+      display: block;
+      margin: 2rem auto;
+      padding: 0.8rem 1.5rem;
+      font-size: 1.1rem;
+      font-weight: bold;
+      background: #00ffff;
+      border: none;
+      color: #000;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #00e6e6;
+    }
+  </style>
+</head>
+<body>
+  <h1>Select Your Theme</h1>
+
+  <div id="themeList">
+    <div class="theme-option" data-theme="light">
+      <strong>Light Theme</strong>
+      <div class="theme-preview theme-light-preview">Bright & Clean</div>
+    </div>
+
+    <div class="theme-option" data-theme="blue">
+      <strong>Neon Blue Theme</strong>
+      <div class="theme-preview theme-blue-preview">Cool & Futuristic</div>
+    </div>
+
+    <div class="theme-option" data-theme="red">
+      <strong>Dark Neon Red Theme</strong>
+      <div class="theme-preview theme-red-preview">Dark & Intense</div>
+    </div>
+  </div>
+
+  <button id="saveThemeBtn">Save Theme</button>
+
+  <script>
+    const themeOptions = document.querySelectorAll('.theme-option');
+    const currentTheme = localStorage.getItem('selectedTheme') || 'light';
+
+    themeOptions.forEach(opt => {
+      if (opt.dataset.theme === currentTheme) {
+        opt.classList.add('selected');
+      }
+
+      opt.addEventListener('click', () => {
+        themeOptions.forEach(o => o.classList.remove('selected'));
+        opt.classList.add('selected');
+        document.documentElement.className = 'theme-' + opt.dataset.theme;
+      });
+    });
+
+    document.getElementById('saveThemeBtn').addEventListener('click', () => {
+      const selected = document.querySelector('.theme-option.selected');
+      if (selected) {
+        const theme = selected.dataset.theme;
+        localStorage.setItem('selectedTheme', theme);
+        alert('Theme saved!');
+      }
+    });
+
+    // Apply theme on load
+    document.documentElement.className = 'theme-' + currentTheme;
+  </script>
+</body>
+</html>
