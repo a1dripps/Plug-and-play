@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en" class="theme-light">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Developer Panel</title>
+<link rel="stylesheet" href="style.css" />
+<script src="themes.js" defer></script>
+<style>
+  body { max-width: 900px; margin: auto; padding: 1rem; font-family: Arial, sans-serif; }
+  h1, h2 { text-align: center; }
+  label { display: block; margin-top: 1rem; font-weight: bold; }
+  input, textarea, select, button { width: 100%; padding: 0.5rem; font-size: 1rem; margin-top: 0.3rem; box-sizing: border-box; }
+  button { cursor: pointer; margin-top: 1rem; }
+  .product-edit {
+    border: 1px solid #ccc; 
+    padding: 1rem; 
+    margin-top: 1rem; 
+    border-radius: 6px;
+    background: var(--panel-bg, #fff);
+  }
+  .product-controls {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.7rem;
+  }
+  .product-controls button {
+    flex: 1;
+    font-size: 0.9rem;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+  }
+  .product-controls button:disabled {
+    background: #aaa;
+    cursor: not-allowed;
+  }
+  .section {
+    background: var(--panel-bg, #f9f9f9);
+    border-radius: 8px;
+    padding: 1rem;
+    margin-top: 2rem;
+  }
+  .flex-row {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .flex-col {
+    flex: 1 1 300px;
+  }
+  .small-input {
+    width: 50px;
+    display: inline-block;
+  }
+  #pinSection {
+    max-width: 300px;
+    margin: 1rem auto;
+  }
+</style>
+</head>
+<body>
+  <h1>Developer Panel</h1>
+
+  <div class="section" id="adminSection">
+    <h2>Admin Tools</h2>
+    <label for="pinInput">Set/Change PIN (4 digits):</label>
+    <input type="password" id="pinInput" maxlength="4" pattern="\d{4}" placeholder="****" />
+    <button id="setPinBtn">Set PIN</button>
+    <button id="removePinBtn">Remove PIN</button>
+    <button id="resetDefaultsBtn" style="background:#dc3545;">Reset to Defaults</button>
+  </div>
+
+  <div class="section" id="businessSection">
+    <h2>Business Tools</h2>
+    <label for="storeName">Store Name:</label>
+    <input type="text" id="storeName" placeholder="Plug & Play Shop" />
+
+    <label for="businessEmail">Business Email:</label>
+    <input type="email" id="businessEmail" placeholder="support@plugandplayshop.com" />
+
+    <label for="deliveryDisclaimer">Global Delivery Disclaimer:</label>
+    <textarea id="deliveryDisclaimer" rows="2" placeholder="All delivery times are estimates."></textarea>
+
+    <label for="footerMessage">Custom Footer Message:</label>
+    <textarea id="footerMessage" rows="2" placeholder="All sales final. Contact support for questions."></textarea>
+
+    <label for="seoTitle">SEO Site Title:</label>
+    <input type="text" id="seoTitle" placeholder="Plug & Play Shop - Your Dream Store" />
+
+    <label for="seoDescription">SEO Site Description:</label>
+    <textarea id="seoDescription" rows="2" placeholder="Buy gaming accounts and electronics securely and fast."></textarea>
+  </div>
+
+  <div class="section" id="designSection">
+    <h2>Design Control</h2>
+    <label for="fontBodySize">Body Font Size (px):</label>
+    <input type="number" id="fontBodySize" min="10" max="24" value="16" />
+
+    <label for="fontHeaderSize">Header Font Size (px):</label>
+    <input type="number" id="fontHeaderSize" min="12" max="40" value="24" />
+
+    <label for="fontButtonSize">Button Font Size (px):</label>
+    <input type="number" id="fontButtonSize" min="10" max="24" value="18" />
+
+    <label for="spacingPreset">Spacing Preset:</label>
+    <select id="spacingPreset">
+      <option value="compact">Compact</option>
+      <option value="normal" selected>Normal</option>
+      <option value="spacious">Spacious</option>
+    </select>
+
+    <label for="buttonStyle">Button Style:</label>
+    <select id="buttonStyle">
+      <option value="flat">Flat</option>
+      <option value="raised" selected>Raised</option>
+      <option value="glow">Glow</option>
+      <option value="outlined">Outlined</option>
+    </select>
+
+    <label for="shadowToggle">
+      <input type="checkbox" id="shadowToggle" checked /> Enable Shadows on Cards/Buttons
+    </label>
+  </div>
+
+  <div class="section" id="templatesSection">
+    <h2>Template Options</h2>
+    <label for="fontFamilySelect">Font Family:</label>
+    <select id="fontFamilySelect">
+      <option value="Arial, sans-serif" selected>Arial (Default)</option>
+      <option value="'Press Start 2P', cursive">Press Start 2P (Gaming)</option>
+      <option value="'Roboto', sans-serif">Roboto</option>
+      <option value="'Orbitron', sans-serif">Orbitron (Futuristic)</option>
+      <option value="'Courier New', monospace">Courier New (Mono)</option>
+    </select>
+
+    <label for="borderStyleSelect">Border Style:</label>
+    <select id="borderStyleSelect">
+      <option value="none">None</option>
+      <option value="solid" selected>Solid</option>
+      <option value="dashed">Dashed</option>
+      <option value="double">Double</option>
+      <option value="groove">Groove</option>
+    </select>
+
+    <label for="siteTemplateSelect">Site Template:</label>
+    <select id="siteTemplateSelect">
+      <option value="default" selected>Default</option>
+      <option value="gaming">Gaming (Dark Neon)</option>
+      <option value="modern">Modern Minimal</option>
+      <option value="retro">Retro Pixel</option>
+    </select>
+  </div>
+
+  <div class="section" id="productManagementSection">
+    <h2>Product Management</h2>
+    <button id="addProductBtn" style="background:#28a745;">+ Add New Product</button>
+    <div id="productsContainer"></div>
+  </div>
+
+  <div class="section" id="exportImportSection">
+    <h2>Export / Import</h2>
+    <button id="exportBtn">Export Products as JSON</button>
+    <input type="file" id="importFileInput" accept=".json" style="margin-top:1rem;" />
+    <button id="importBtn">Import Products from JSON</button>
+  </div>
+
+  <div class="section" id="futureFeaturesSection">
+    <h2>Future Placeholders</h2>
+    <p>Basic Sales Dashboard (Coming Soon)</p>
+    <p>Low-Stock Alerts (Coming Soon)</p>
+    <p>Customer Order Log (Coming Soon)</p>
+  </div>
+
+<script>
+  const productsKey = 'products';
+  const emailKey = 'businessEmail';
+  const storeNameKey = 'storeName';
+  const deliveryDisclaimerKey = 'deliveryDisclaimer';
+  const footerMessageKey = 'footerMessage';
+  const seoTitleKey = 'seoTitle';
+  const seoDescriptionKey = 'seoDescription';
+  const designSettingsKey = 'designSettings';
+  const templateSettingsKey = 'templateSettings';
+  const pinKey = 'devPanelPin';
+
+  // Default products
+  const defaultProducts = [
+    { id: 1, name: 'Epic Game Account', price: 25, type: 'account', description: 'A rare epic game account.', enabled: true, deliveryTime: '2-24 hours', image: '' },
+    { id: 2, name: 'Pro Gaming Mouse', price: 75, type: 'physical', description: 'High precision gaming mouse.', enabled: true, deliveryTime: '3-7 days', image: '' },
+    { id: 3, name: 'Legendary Account', price: 50, type: 'account', description: 'Legendary in-game account.', enabled: true, deliveryTime: '2-24 hours', image: '' },
+    { id: 4, name: 'Gaming Keyboard', price: 60, type: 'physical', description: 'Mechanical RGB keyboard.', enabled: true, deliveryTime: '5-10 days', image: '' },
+    { id: 5, name:
