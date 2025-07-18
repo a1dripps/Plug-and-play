@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Terms & Refund Policy - Plug & Play</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="header">
+    <div class="logo">📜 Terms</div>
+    <nav class="navbar">
+      <a href="index.html">Shop</a>
+      <a href="cart.html">Cart</a>
+      <a href="themes.html">Themes</a>
+      <a href="developer.html">Developer</a>
+    </nav>
+  </header>
+
+  <main class="terms-main">
+    <h1>Terms of Service & Refund Policy</h1>
+
+    <section>
+      <h2>Terms of Service</h2>
+      <p>By purchasing from Plug & Play Shop, you agree to the following:</p>
+      <ul>
+        <li>All sales are final unless stated otherwise.</li>
+        <li>Game accounts are delivered via email within 2–24 hours.</li>
+        <li>Electronics may take longer; see product pages for expected delivery times.</li>
+        <li>We are not responsible for lost access due to misuse or sharing of game account credentials.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Refund Policy</h2>
+      <p>We do not offer refunds on digital products (game accounts) once delivered. For electronics, contact us at <strong id="terms-email">plugandplay@example.com</strong> if the item is defective within 48 hours of receipt.</p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>&copy; 2025 Plug & Play Shop • All rights reserved</p>
+  </footer>
+
+  <script>
+    // Auto-insert saved business email
+    const email = localStorage.getItem('businessEmail') || 'plugandplay@example.com';
+    document.getElementById('terms-email').textContent = email;
+  </script>
+</body>
+</html>
