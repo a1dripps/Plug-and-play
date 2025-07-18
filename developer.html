@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Developer Panel</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet" />
+  <script src="themes.js" defer></script>
+  <script src="developer.js" defer></script>
+</head>
+<body>
+  <header class="header">
+    <div class="logo">🔧 Developer Panel</div>
+    <nav class="navbar">
+      <a href="index.html">Shop</a>
+      <a href="themes.html">Themes</a>
+      <a href="cart.html">Cart</a>
+      <a href="search.html">Search</a>
+      <a href="support.html">Support</a>
+    </nav>
+  </header>
+
+  <main class="dev-main">
+    <section id="pinSection" class="dev-section">
+      <h2>🔐 Enter PIN</h2>
+      <input type="password" id="devPinInput" placeholder="Enter PIN" />
+      <button id="unlockBtn">Unlock</button>
+      <p id="pinError" class="error-msg hidden">Incorrect PIN</p>
+    </section>
+
+    <section id="panelSection" class="dev-section hidden">
+      <h2>⚙️ Manage Products</h2>
+
+      <div class="dev-controls">
+        <button id="addProductBtn">➕ Add New Product</button>
+        <button id="saveProductsBtn">💾 Save All</button>
+      </div>
+
+      <div id="productsEditor" class="editor-grid"></div>
+
+      <h2>📧 Store Settings</h2>
+      <label>Business Email:
+        <input type="email" id="storeEmail" placeholder="support@example.com"/>
+      </label>
+      <label>Default Delivery Time (electronics):
+        <input type="text" id="defaultDeliveryTime" placeholder="1–3 days"/>
+      </label>
+      <button id="saveSettingsBtn">Save Settings</button>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>&copy; 2025 Plug & Play • Developer Access</p>
+  </footer>
+</body>
+</html>
