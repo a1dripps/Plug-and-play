@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Plug & Play Shop</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #0e0e0e;
+      color: #fff;
+    }
+    header {
+      background: #111;
+      padding: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    header h1 {
+      margin: 0;
+      color: #0ff;
+      font-size: 20px;
+    }
+    .nav-right button {
+      background: #0ff;
+      border: none;
+      margin-left: 10px;
+      padding: 6px 12px;
+      cursor: pointer;
+    }
+    .product {
+      background: #1a1a1a;
+      margin: 20px;
+      padding: 15px;
+      border-radius: 8px;
+    }
+    .product h3 {
+      margin: 0 0 10px;
+    }
+    .product button {
+      background: #0ff;
+      border: none;
+      padding: 8px 16px;
+      margin-right: 10px;
+      cursor: pointer;
+    }
+    .popup, .cart {
+      display: none;
+      position: fixed;
+      top: 20%;
+      left: 10%;
+      right: 10%;
+      background: #222;
+      padding: 20px;
+      border: 1px solid #0ff;
+      border-radius: 10px;
+      z-index: 10;
+    }
+    .overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.6);
+      z-index: 5;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Plug & Play Shop</h1>
+  <div class="nav-right">
+    <button onclick="showPopup('login')">Login</button>
+    <button onclick="showPopup('signup')">Sign Up</button>
+    <button onclick="showCart()">🛒 Basket</button>
+  </div>
+</header>
+
+<div class="product">
+  <h3>Gaming Mouse - RGB</h3>
+  <p>$39.99</p>
+  <button onclick="addToCart('Gaming Mouse - RGB')">Add to Basket</button>
+  <button onclick="window.location.href='checkout.html'">Buy Now</button>
+</div>
+
+<div class="product">
+  <h3>PSN Account - Premium</h3>
+  <p>$29.99</p>
+  <button onclick="addToCart('PSN Account - Premium')">Add to Basket</button>
+  <button onclick="window.location.href='checkout.html'">Buy Now</button>
+</div>
+
+<!-- Login & Signup Popups -->
+<div class="overlay" id="overlay" onclick="hideAll()"></div>
+
+<div class="popup" id="login">
+  <h2>Login</h2>
+  <input placeholder="Email"><br>
+  <input placeholder="Password" type="password"><br>
+  <button>Submit</button>
+</div>
+
+<div class="popup" id="signup">
+  <h2>Sign Up</h2>
+  <input placeholder="Email"><br>
+  <input placeholder="Password" type="password"><br>
+  <button>Create Account</button>
+</div>
+
+<!-- Cart Preview -->
+<div class="cart" id="cartBox">
+  <h2>Your Basket</h2>
+  <ul id="cartItems"></ul>
+  <button onclick="window.location.href='checkout.html'">Checkout</button>
+</div>
+
+<script>
+  let cart = [];
+
+  function addToCart(item) {
+    cart.push(item);
+    alert(item + ' added to basket.');
+  }
+
+  function showPopup(id) {
+    document.getElementById('overlay').style.display = 'block';
+    document.getElementById(id).style.display = 'block';
+  }
+
+  function showCart() {
+    const box = document.getElementById('cartBox');
+    const overlay = document.getElementById('overlay');
+    const list = document.getElementById('cartItems');
+    list.innerHTML = cart.map(item => `<li>${item}</li>`).join('');
+    overlay.style.display = 'block';
+    box.style.display = 'block';
+  }
+
+  function hideAll() {
+    document.getElementById('overlay').style.display = 'none';
+    document.querySelectorAll('.popup, .cart').forEach(e => e.style.display = 'none');
+  }
+</script>
+
+</body>
+</html>
