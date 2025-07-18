@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" class="theme-light">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Plug & Play Shop</title>
+<link rel="stylesheet" href="style.css" />
+<script defer src="scripts/index.js"></script>
+</head>
+<body>
+<header>
+  <button id="menuBtn" aria-label="Toggle Menu" class="menu-btn">☰</button>
+  <h1>Plug & Play Shop</h1>
+  <nav id="navMenu" class="nav-menu hidden">
+    <a href="index.html" class="nav-link active">Shop</a>
+    <a href="search.html" class="nav-link">Search</a>
+    <a href="support.html" class="nav-link">Support</a>
+    <a href="themes.html" class="nav-link">Themes</a>
+    <a href="developer.html" class="nav-link">Developer</a>
+    <button id="cartBtn" aria-label="View Cart" class="cart-btn">🛒 <span id="cartCount">0</span></button>
+  </nav>
+</header>
+
+<main>
+  <section id="welcome">
+    <p>Welcome to Plug & Play Shop where your dreams come to life</p>
+  </section>
+
+  <section id="productList" class="products-grid" aria-label="Product List">
+    <!-- Products loaded by JS -->
+  </section>
+</main>
+
+<footer>
+  <p>© 2025 Plug & Play Shop</p>
+</footer>
+
+<div id="cartPanel" class="cart-panel hidden" aria-live="polite" aria-label="Shopping Cart">
+  <h2>Your Cart</h2>
+  <div id="cartItems"></div>
+  <div class="cart-summary">
+    <strong>Total: $<span id="cartTotal">0.00</span></strong>
+  </div>
+  <button id="checkoutBtn" class="btn-primary">Proceed to Checkout</button>
+  <button id="closeCartBtn" class="btn-secondary">Close</button>
+</div>
+
+</body>
+</html>
