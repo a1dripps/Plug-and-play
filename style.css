@@ -1,0 +1,242 @@
+/* style.css - modern gaming-themed, responsive and mobile-first */
+
+:root {
+  --color-bg-light: #f0f0f3;
+  --color-bg-dark: #121217;
+  --color-primary-light: #1a73e8;
+  --color-primary-neon-blue: #00d8ff;
+  --color-primary-dark-neon-red: #ff073a;
+  --color-text-light: #222;
+  --color-text-dark: #eee;
+  --font-primary: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-primary);
+  background-color: var(--color-bg-light);
+  color: var(--color-text-light);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+header {
+  background: #222;
+  padding: 10px 20px;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.logo {
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: white;
+  text-decoration: none;
+}
+
+.top-nav ul.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 18px;
+  padding-left: 0;
+  margin: 0;
+  align-items: center;
+}
+
+.top-nav ul.nav-links li a {
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 6px 10px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.top-nav ul.nav-links li a:hover,
+.top-nav ul.nav-links li a.active {
+  background-color: var(--color-primary-light);
+}
+
+main {
+  flex-grow: 1;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.welcome {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--color-primary-light);
+}
+
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill,minmax(250px,1fr));
+  gap: 20px;
+}
+
+.product-card {
+  background: white;
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: 0 4px 10px rgb(0 0 0 / 0.15);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.2s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgb(0 0 0 / 0.3);
+}
+
+.product-image {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+
+.product-name {
+  font-weight: 700;
+  font-size: 1.2rem;
+  margin-bottom: 8px;
+  color: var(--color-primary-light);
+}
+
+.product-desc {
+  font-size: 0.9rem;
+  color: #555;
+  flex-grow: 1;
+  margin-bottom: 10px;
+}
+
+.product-price {
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin-bottom: 12px;
+  color: #111;
+}
+
+.product-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.btn-buy, .btn-add {
+  flex: 1;
+  padding: 10px 0;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-buy {
+  background-color: var(--color-primary-light);
+  color: white;
+}
+
+.btn-buy:hover {
+  background-color: #155ab8;
+}
+
+.btn-add {
+  background-color: #eee;
+  color: var(--color-primary-light);
+  border: 1px solid var(--color-primary-light);
+}
+
+.btn-add:hover {
+  background-color: var(--color-primary-light);
+  color: white;
+}
+
+footer {
+  text-align: center;
+  padding: 15px 10px;
+  background-color: #222;
+  color: white;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 600px) {
+  .top-nav ul.nav-links {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .products-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* THEMES */
+
+/* Neon Blue Theme */
+body.theme-neon-blue {
+  background-color: #001a26;
+  color: #00d8ff;
+}
+
+body.theme-neon-blue header {
+  background-color: #004d66;
+}
+
+body.theme-neon-blue .btn-buy {
+  background-color: #00d8ff;
+}
+
+body.theme-neon-blue .btn-buy:hover {
+  background-color: #009ecf;
+}
+
+body.theme-neon-blue .btn-add {
+  border-color: #00d8ff;
+  color: #00d8ff;
+}
+
+body.theme-neon-blue .btn-add:hover {
+  background-color: #00d8ff;
+  color: #001a26;
+}
+
+/* Dark Neon Red Theme */
+body.theme-dark-neon-red {
+  background-color: #1a0000;
+  color: #ff073a;
+}
+
+body.theme-dark-neon-red header {
+  background-color: #660000;
+}
+
+body.theme-dark-neon-red .btn-buy {
+  background-color: #ff073a;
+}
+
+body.theme-dark-neon-red .btn-buy:hover {
+  background-color: #cc052e;
+}
+
+body.theme-dark-neon-red .btn-add {
+  border-color: #ff073a;
+  color: #ff073a;
+}
+
+body.theme-dark-neon-red .btn-add:hover {
+  background-color: #ff073a;
+  color: #1a0000;
+}
