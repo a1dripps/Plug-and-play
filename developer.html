@@ -223,3 +223,212 @@
   const SEO_DESC_KEY = 'seoDescription';
   const FONT_BODY_SIZE_KEY = 'fontBodySize';
   const FONT_HEADER_SIZE_KEY = 'fontHeaderSize
+  const FONT_BUTTON_SIZE_KEY = 'fontButtonSize';
+  const SPACING_PRESET_KEY = 'spacingPreset';
+  const BUTTON_STYLE_KEY = 'buttonStyle';
+  const SHADOW_TOGGLE_KEY = 'shadowToggle';
+
+  // DOM Elements
+  const storeNameInput = document.getElementById('storeNameInput');
+  const businessEmailInput = document.getElementById('businessEmailInput');
+  const deliveryDisclaimerInput = document.getElementById('deliveryDisclaimerInput');
+  const footerMessageInput = document.getElementById('footerMessageInput');
+  const seoTitleInput = document.getElementById('seoTitleInput');
+  const seoDescriptionInput = document.getElementById('seoDescriptionInput');
+  const fontBodySizeInput = document.getElementById('fontBodySize');
+  const fontHeaderSizeInput = document.getElementById('fontHeaderSize');
+  const fontButtonSizeInput = document.getElementById('fontButtonSize');
+  const spacingPresetSelect = document.getElementById('spacingPreset');
+  const buttonStyleSelect = document.getElementById('buttonStyle');
+  const shadowToggleCheckbox = document.getElementById('shadowToggle');
+  const productsContainer = document.getElementById('productsContainer');
+  const addProductBtn = document.getElementById('addProductBtn');
+  const exportBtn = document.getElementById('exportBtn');
+  const importFileInput = document.getElementById('importFileInput');
+  const importBtn = document.getElementById('importBtn');
+  const resetBtn = document.getElementById('resetBtn');
+  const saveBtn = document.getElementById('saveBtn');
+
+  let products = [];
+
+  // Default store data
+  const defaultData = {
+    products: [
+      {
+        id: generateId(),
+        name: "Example Game Account",
+        description: "A cool game account ready to play!",
+        price: 19.99,
+        type: "game account",
+        imageUrl: "https://via.placeholder.com/300x180?text=Game+Account",
+        stripeLink: "",
+        stock: 10,
+        enabled: true,
+        deliveryTime: "2-24 hours"
+      },
+      {
+        id: generateId(),
+        name: "Gaming Mouse",
+        description: "High precision wireless gaming mouse.",
+        price: 49.99,
+        type: "electronics",
+        imageUrl: "https://via.placeholder.com/300x180?text=Gaming+Mouse",
+        stripeLink: "",
+        stock: 5,
+        enabled: true,
+        deliveryTime: "3-7 days"
+      }
+    ],
+    businessEmail: "support@plugandplayshop.com",
+    storeName: "Plug & Play Shop",
+    deliveryDisclaimer: "Delivery times are estimates and may vary.",
+    footerMessage: "© 2025 Plug & Play Shop. All rights reserved.",
+    seoTitle: "Plug & Play Shop - Your Gaming Store",
+    seoDescription: "Welcome to Plug & Play Shop, your destination for game accounts and electronics.",
+    fontBodySize: 16,
+    fontHeaderSize: 24,
+    fontButtonSize: 16,
+    spacingPreset: "medium",
+    buttonStyle: "raised",
+    shadowToggle: true
+  };
+
+  function generateId() {
+    return '_' + Math.random().toString(36).substr(2, 9);
+  }
+
+  // PIN check
+  PIN_SUBMIT_BTN.addEventListener('click', () => {
+    if (PIN_INPUT.value === PIN_CODE) {
+      PIN_ERROR.style.display = 'none';
+      LOGIN_SECTION.classList.add('hidden');
+      LOGIN_SECTION.setAttribute('aria-hidden', 'true');
+      PANEL_SECTION.classList.remove('hidden');
+      PANEL_SECTION.setAttribute('aria-hidden', 'false');
+      loadData();
+    } else {
+      PIN_ERROR.style.display = 'block';
+    }
+  });
+
+  // Load data from localStorage or default
+  function loadData() {
+    products = JSON.parse(localStorage.getItem(PRODUCTS_KEY)) || JSON.parse(JSON.stringify(defaultData.products));
+    businessEmailInput.value = localStorage.getItem(EMAIL_KEY) || defaultData.businessEmail;
+    storeNameInput.value = localStorage.getItem(STORE_NAME_KEY) || defaultData.storeName;
+    deliveryDisclaimerInput.value = localStorage.getItem(DELIVERY_DISCLAIMER_KEY) || defaultData.deliveryDisclaimer;
+    footerMessageInput.value = localStorage.getItem(FOOTER_MSG_KEY) || defaultData.footerMessage;
+    seoTitleInput.value = localStorage.getItem(SEO_TITLE_KEY) || defaultData.seoTitle;
+    seoDescriptionInput.value = localStorage.getItem(SEO_DESC_KEY) || defaultData.seoDescription;
+    fontBodySizeInput.value = localStorage.getItem(FONT_BODY_SIZE_KEY) || defaultData.fontBodySize;
+    fontHeaderSizeInput.value = localStorage.getItem(FONT_HEADER_SIZE_KEY) || defaultData.fontHeaderSize;
+    fontButtonSizeInput.value = localStorage.getItem(FONT_BUTTON_SIZE_KEY) || defaultData.fontButtonSize;
+    spacingPresetSelect.value = localStorage.getItem(SPACING_PRESET_KEY) || defaultData.spacingPreset;
+    buttonStyleSelect.value = localStorage.getItem(BUTTON_STYLE_KEY) || defaultData.buttonStyle;
+    shadowToggleCheckbox.checked = localStorage.getItem(SHADOW_TOGGLE_KEY) !== "false";
+
+    renderProducts();
+  }
+
+  // Save all data
+  saveBtn.addEventListener('click', () => {
+    localStorage.setItem(PRODUCTS_KEY, JSON.stringify(products));
+    localStorage.setItem(EMAIL_KEY, businessEmailInput.value);
+    localStorage.setItem(STORE_NAME_KEY, storeNameInput.value);
+    localStorage.setItem(DELIVERY_DISCLAIMER_KEY, deliveryDisclaimerInput.value);
+    localStorage.setItem(FOOTER_MSG_KEY, footerMessageInput.value);
+    localStorage.setItem(SEO_TITLE_KEY, seoTitleInput.value);
+    localStorage.setItem(SEO_DESC_KEY, seoDescriptionInput.value);
+    localStorage.setItem(FONT_BODY_SIZE_KEY, fontBodySizeInput.value);
+    localStorage.setItem(FONT_HEADER_SIZE_KEY, fontHeaderSizeInput.value);
+    localStorage.setItem(FONT_BUTTON_SIZE_KEY, fontButtonSizeInput.value);
+    localStorage.setItem(SPACING_PRESET_KEY, spacingPresetSelect.value);
+    localStorage.setItem(BUTTON_STYLE_KEY, buttonStyleSelect.value);
+    localStorage.setItem(SHADOW_TOGGLE_KEY, shadowToggleCheckbox.checked);
+
+    alert("Changes saved.");
+  });
+
+  // Reset all data
+  resetBtn.addEventListener('click', () => {
+    if(confirm("Are you sure you want to reset everything to defaults? This cannot be undone.")){
+      localStorage.clear();
+      loadData();
+      alert("Reset complete.");
+    }
+  });
+
+  // Export products JSON
+  exportBtn.addEventListener('click', () => {
+    const dataStr = JSON.stringify(products, null, 2);
+    const blob = new Blob([dataStr], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'products.json';
+    a.click();
+    URL.revokeObjectURL(url);
+  });
+
+  // Import products JSON
+  importBtn.addEventListener('click', () => {
+    const file = importFileInput.files[0];
+    if(!file) {
+      alert("Please select a JSON file first.");
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = e => {
+      try {
+        const importedProducts = JSON.parse(e.target.result);
+        if(Array.isArray(importedProducts)){
+          products = importedProducts;
+          renderProducts();
+          alert("Import successful.");
+        } else {
+          alert("Invalid JSON format.");
+        }
+      } catch {
+        alert("Error parsing JSON file.");
+      }
+    };
+    reader.readAsText(file);
+  });
+
+  // Render product edit forms
+  function renderProducts(){
+    productsContainer.innerHTML = '';
+    if(products.length === 0){
+      productsContainer.innerHTML = '<p>No products yet. Add some!</p>';
+      return;
+    }
+    products.forEach((p, index) => {
+      const div = document.createElement('div');
+      div.className = 'product-edit';
+      div.innerHTML = `
+        <h3>
+          <input type="text" value="${escapeHtml(p.name)}" data-index="${index}" data-field="name" placeholder="Product Name" />
+          <div class="prod-controls">
+            <button data-action="up" data-index="${index}" title="Move Up">⬆️</button>
+            <button data-action="down" data-index="${index}" title="Move Down">⬇️</button>
+            <button data-action="duplicate" data-index="${index}" title="Duplicate">📄</button>
+            <button data-action="delete" data-index="${index}" title="Delete" style="color:#cc4444;">✖️</button>
+          </div>
+        </h3>
+        <label>Description:</label>
+        <textarea data-index="${index}" data-field="description" rows="3">${escapeHtml(p.description)}</textarea>
+        <label>Price ($):</label>
+        <input type="number" step="0.01" min="0" data-index="${index}" data-field="price" value="${p.price}" />
+        <label>Type:</label>
+        <select data-index="${index}" data-field="type">
+          <option value="game account" ${p.type === 'game account' ? 'selected' : ''}>Game Account</option>
+          <option value="electronics" ${p.type === 'electronics' ? 'selected' : ''}>Electronics</option>
+        </select>
+        <label>Stripe Link:</label>
+        <input type="text" data-index="${index}" data-field="stripeLink" value="${escapeHtml(p.stripeLink)}" placeholder="Stripe checkout link" />
+        <label>Stock Quantity:</label>
+        <input type="number" min="0" data-index="${index}" data-field="stock" value="${p.stock}" />
+        <label>Delivery Time:</label>
+        <input type="text" data-index="${index}" data-field="deliveryTime" value="${escapeHtml(p.deliveryTime || '')}" placeholder="e.g. 2-24 hours or 3-7 days" />
+        <label>Image URL:</label>
+        <input type="text" data-index="${index}" data-field="imageUrl" value="${escapeHtml
