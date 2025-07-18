@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en" class="theme-light">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Developer Panel - Plug & Play Shop</title>
+<style>
+  body {
+    max-width: 900px;
+    margin: auto;
+    padding: 1rem;
+    font-family: Arial, sans-serif;
+    background: #fff;
+    color: #222;
+  }
+  h1, h2 {
+    text-align: center;
+  }
+  label {
+    display: block;
+    margin-top: 1rem;
+    font-weight: 600;
+  }
+  input[type=text], input[type=number], input[type=email], select, textarea {
+    width: 100%;
+    padding: 0.5rem;
+    font-size: 1rem;
+    margin-top: 0.2rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    resize: vertical;
+  }
+  textarea {
+    font-family: inherit;
+  }
+  button {
+    margin-top: 1rem;
+    padding: 0.7rem 1.5rem;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 5px;
+    border: none;
+    background-color: #0078D7;
+    color: white;
+    transition: background-color 0.3s ease;
+  }
+  button:hover {
+    background-color: #005ea2;
+  }
+  .section {
+    border: 1px solid #ddd;
+    padding: 1rem;
+    margin-top: 2rem;
+    border-radius: 8px;
+    background: #fafafa;
+  }
+  .products-list {
+    margin-top: 1rem;
+  }
+  .product-item {
+    border: 1px solid #bbb;
+    background: white;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    border-radius: 6px;
+    position: relative;
+  }
+  .product-header {
+    font-weight: 700;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .product-controls button {
+    margin-left: 0.5rem;
+    background-color: #444;
+  }
+  .product-controls button:hover {
+    background-color: #222;
+  }
+  .small-btn {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.8rem;
+    line-height: 1;
+  }
+  .flex-row {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .flex-col {
+    flex: 1 1 300px;
+  }
+  .inline-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+  }
+  .inline-label input[type=checkbox] {
+    width: auto;
+  }
+  .footer-note {
+    font-size: 0.9rem;
+    color: #555;
+    margin-top: 0.3rem;
+  }
+  hr {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+  }
+  .top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  .top-bar button {
+    background-color: #d9534f;
+  }
+  .top-bar button:hover {
+    background-color: #b52b27;
+  }
+  .status-message {
+    margin-top: 1rem;
+    font-weight: 600;
+    color: green;
+  }
+  .hidden {
+    display: none;
+  }
+  .drag-handle {
+    cursor: grab;
+    font-size: 1.2rem;
+    padding-right: 0.5rem;
+  }
+  .locked-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(255,255,255,0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    flex-direction: column;
+  }
+  .locked-overlay input[type=password] {
+    padding: 0.5rem;
+    font-size: 1.2rem;
+    margin-top: 0.5rem;
+    width: 250px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  .locked-overlay button {
+    margin-top: 1rem;
+  }
+  .theme-preview {
+    margin-top: 0.5rem;
+    font-style: italic;
+    font-size: 0.9rem;
+    color: #666;
+  }
+</style>
+</head>
+<body>
+
+<div id="lockScreen" class="locked-overlay hidden">
+  <h2>Enter Developer Panel PIN</h2>
+  <input type="password" id="panelPinInput" placeholder="PIN" />
+  <button id="unlockBtn">Unlock</button>
+  <p id="lockMessage" style="color: red; margin-top: 0.5rem;"></p>
+</div>
+
+<h1>Developer Panel - Plug & Play Shop</h1>
+
+<div class="top-bar">
+  <button id="resetBtn" title="Reset all data to defaults (Warning!)">Reset to Defaults</button>
+  <button id="exportBtn" title="Export product data JSON">Export Data</button>
+  <button id="importBtn" title="Import product data JSON">Import Data</button>
+  <button id="lockToggleBtn" title="Lock/Unlock Panel with PIN">Lock Panel</button>
+</div>
+
+<input type="file" id="importFileInput" accept=".json" style="display:none" />
+
+<div class="section" id="businessInfoSection">
+  <h2>Business Info & Store Settings</h2>
+  <label for="storeNameInput">Store Name:</label>
+  <input type="text" id="storeNameInput" placeholder="Plug & Play Shop" />
+
+  <label for="businessEmailInput">Business Email:</label>
+  <input type="email" id="businessEmailInput" placeholder="support@plugandplayshop.com" />
+
+  <label for="deliveryDisclaimerInput">Global Delivery Disclaimer / Notes:</label>
+  <textarea id="deliveryDisclaimerInput" rows="3" placeholder="e.g. Electronics ship in 3-7 days, Accounts within 24h."></textarea>
+
+  <label for="footerMessageInput">Custom Footer Message:</label>
+  <textarea id="footerMessageInput" rows="2" placeholder="e.g. All sales final, no refunds."></textarea>
+</div>
+
+<div class="section" id="seoSection">
+  <h2>SEO & Metadata</h2>
+  <label for="seoTitleInput">Site Title (meta title):</label>
+  <input type="text" id="seoTitleInput" placeholder="Plug & Play Shop - Electronics & Game Accounts" />
+
+  <label for="seoDescriptionInput">Site Description (meta description):</label>
+  <textarea id="seoDescriptionInput" rows="3" placeholder="Your trusted shop for electronics and gaming accounts."></textarea>
+</div>
+
+<div class="section" id="designControlSection">
+  <h2>Design & Theme Control</h2>
+  <label for="themeSelect">Theme:</label>
+  <select id="themeSelect">
+    <option value="theme-light">Light (Base)</option>
+    <option value="theme-neonblue">Neon Blue</option>
+    <option value="theme-neonred">Dark Neon Red</option>
+  </select>
+  <div class="theme-preview" id="themePreview">Current theme preview</div>
+
+  <label for="fontBodySize">Font Size - Body (px):</label>
+  <input type="number" id="fontBodySize" min="10" max="30" value="16" />
+
+  <label for="fontHeaderSize">Font Size - Headers (px):</label>
+  <input type="number" id="fontHeaderSize" min="12" max="50" value="24" />
+
+  <label for="fontButtonSize">Font Size - Buttons (px):</label>
+  <input type="number" id="fontButtonSize" min="10" max="30" value="16" />
+
+  <label for="spacingControl">Spacing Preset:</label>
+  <select id="spacingControl">
+    <option value="normal">Normal</option>
+    <option value="compact">Compact</option>
+    <option value="spacious">Spacious</option>
+  </select>
+
+  <label for="buttonStyleSelect">Button Style:</label>
+  <select id="buttonStyleSelect">
+    <option value="flat">Flat</option>
+    <option value="raised">Raised</option>
+    <option value="glow">Glow</option>
+    <option value="outlined">Outlined</option>
+  </select>
+
+  <label class="inline-label"><input type="checkbox" id="shadowToggle" /> Enable Shadows on Cards & Buttons</label>
+</div>
+
+<div class="section" id="productsSection">
+  <h2>Product Management</h2>
+  <button id="addProductBtn">+ Add New Product</button>
+  <div class="products-list" id="productsList"></div>
+</div>
+
+<div class="status-message" id="statusMessage"></div>
+
+<script>
+  // Constants and keys
+  const STORAGE_KEY = 'plugAndPlayShopData_v3';
+  const LOCK_PIN_KEY = 'plugAndPlayShopLockPin';
+
+  // Default data structure
+  const defaultData = {
+    storeName: 'Plug & Play Shop',
+    businessEmail: 'support
