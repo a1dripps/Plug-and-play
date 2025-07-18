@@ -1,0 +1,252 @@
+/* Reset and Base Styling */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding: 20px;
+  transition: background-color 0.3s, color 0.3s;
+  min-height: 100vh;
+}
+
+h1, h2, h3, h4 {
+  margin-bottom: 10px;
+}
+
+button {
+  font-size: 1rem;
+  padding: 12px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background 0.2s ease;
+}
+
+input, textarea {
+  padding: 12px;
+  font-size: 1rem;
+  margin: 10px 0;
+  width: 100%;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.container {
+  max-width: 1100px;
+  margin: auto;
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  background-color: #f5f5f5;
+  padding: 10px 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+nav .menu {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+nav .menu a {
+  text-decoration: none;
+  font-weight: bold;
+  color: #333;
+}
+
+nav .right {
+  display: flex;
+  gap: 10px;
+}
+
+.product {
+  border: 1px solid #ddd;
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 0 6px rgba(0,0,0,0.05);
+}
+
+.product h3 {
+  font-size: 1.4rem;
+  margin-bottom: 10px;
+}
+
+.product p {
+  font-size: 1.1rem;
+  margin-bottom: 12px;
+}
+
+.theme-toggle {
+  margin: 20px 0;
+}
+
+.cart-icon {
+  position: relative;
+}
+
+.cart-icon span {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: red;
+  color: white;
+  font-size: 0.8rem;
+  padding: 2px 6px;
+  border-radius: 50%;
+}
+
+.line-separator {
+  margin: 20px 0;
+  border-top: 2px solid #ccc;
+}
+
+.big-heading {
+  font-size: 1.6rem;
+  margin-bottom: 12px;
+}
+
+.dev-panel input,
+.dev-panel textarea {
+  font-size: 1rem;
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+}
+
+/* Responsive Grid for Products */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+/* Themes */
+.theme-light {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+.theme-light nav {
+  background-color: #f2f2f2;
+}
+
+.theme-neon {
+  background-color: #001f3f;
+  color: #00ffff;
+}
+
+.theme-neon nav {
+  background-color: #002244;
+}
+
+.theme-dark {
+  background-color: #1a1a1a;
+  color: #ff4c4c;
+}
+
+.theme-dark nav {
+  background-color: #2c2c2c;
+}
+
+/* Modal popups (Login/Signup) */
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  color: black;
+  padding: 30px;
+  border-radius: 10px;
+  z-index: 1000;
+  display: none;
+  width: 90%;
+  max-width: 400px;
+}
+
+.modal.active {
+  display: block;
+}
+
+.modal h2 {
+  margin-bottom: 20px;
+}
+
+.modal input {
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.modal button {
+  width: 100%;
+  background: #007bff;
+  color: white;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.4);
+  z-index: 999;
+  display: none;
+}
+
+.overlay.active {
+  display: block;
+}
+
+/* Mobile menu */
+.hamburger {
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.mobile-menu {
+  display: none;
+  flex-direction: column;
+  margin-top: 10px;
+}
+
+@media (max-width: 768px) {
+  nav {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  nav .menu {
+    flex-direction: column;
+    width: 100%;
+  }
+}
+
+/* Checkout */
+.checkout-form label {
+  font-size: 1.2rem;
+  display: block;
+  margin-top: 15px;
+}
+
+.checkout-form input {
+  font-size: 1.1rem;
+  padding: 12px;
+}
+
+.checkout-form button {
+  font-size: 1.2rem;
+  margin-top: 20px;
+  background: #28a745;
+  color: white;
+}
