@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" class="theme-light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Choose Theme - Plug & Play Shop</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="theme.js" defer></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 700px;
+      margin: auto;
+      padding: 1rem;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+    }
+    h1 {
+      text-align: center;
+    }
+    .theme-preview {
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      margin: 1rem 0;
+      padding: 1rem;
+      cursor: pointer;
+      user-select: none;
+      text-align: center;
+      font-weight: bold;
+      font-size: 1.2rem;
+      transition: box-shadow 0.3s ease, border-color 0.3s ease;
+    }
+    .theme-preview.selected {
+      border-color: #007bff;
+      box-shadow: 0 0 12px #007bff;
+    }
+    #light {
+      background-color: #fff;
+      color: #000;
+    }
+    #neonBlue {
+      background-color: #001f3f;
+      color: #0ff;
+    }
+    #darkNeonRed {
+      background-color: #222;
+      color: #f00;
+    }
+    button {
+      display: block;
+      margin: 2rem auto;
+      padding: 1rem 2rem;
+      font-size: 1.2rem;
+      cursor: pointer;
+      border: none;
+      border-radius: 6px;
+      background-color: var(--btn-bg);
+      color: var(--btn-text);
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: var(--btn-hover);
+    }
+  </style>
+</head>
+<body>
+  <h1>Select Your Theme</h1>
+
+  <div id="light" class="theme-preview" tabindex="0">Light Theme (White background)</div>
+  <div id="neonBlue" class="theme-preview" tabindex="0">Neon Blue Theme</div>
+  <div id="darkNeonRed" class="theme-preview" tabindex="0">Dark Neon Red Theme</div>
+
+  <button id="saveThemeBtn">Save Theme</button>
+
+  <script>
+    const themePreviews = document.querySelectorAll('.theme-preview');
+    let selectedTheme = localStorage.getItem('selectedTheme') || 'theme-light';
+
+    function applyTheme(theme) {
+      document.documentElement.className = theme;
+      themePre
