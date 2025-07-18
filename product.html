@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en" class="theme-light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Product Details | Plug & Play Shop</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="themes.js" defer></script>
+  <script src="store.js" defer></script>
+  <style>
+    body {
+      max-width: 900px;
+      margin: auto;
+      padding: 1.5rem;
+    }
+    .product-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      align-items: flex-start;
+    }
+    .product-image {
+      flex: 1 1 300px;
+      border-radius: 12px;
+      box-shadow: var(--card-shadow);
+      max-width: 100%;
+      object-fit: contain;
+    }
+    .product-info {
+      flex: 1 1 400px;
+    }
+    .product-info h1 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+    .price {
+      font-weight: bold;
+      font-size: 1.5rem;
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+    .buttons {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+    button {
+      cursor: pointer;
+      padding: 0.7rem 1.5rem;
+      font-size: 1rem;
+      border-radius: 8px;
+      border: none;
+      transition: background-color 0.3s ease;
+      font-weight: 600;
+      user-select: none;
+    }
+    .btn-buy {
+      background-color: var(--accent);
+      color: #fff;
+      box-shadow: 0 0 8px var(--accent);
+    }
+    .btn-buy:hover {
+      background-color: var(--accent-hover);
+    }
+    .btn-add {
+      background-color: transparent;
+      border: 2px solid var(--accent);
+      color: var(--accent);
+    }
+    .btn-add:hover {
+      background-color: var(--accent);
+      color: #fff;
+      box-shadow: 0 0 8px var(--accent);
+    }
+    hr {
+      border: none;
+      border-top: 1px solid var(--text-muted);
+      margin: 2rem 0 1rem 0;
+    }
+    h2 {
+      font-size: 1.8rem;
+      margin-bottom: 0.8rem;
+    }
+    .description {
+      font-size: 1rem;
+      line-height: 1.5;
+      color: var(--text-muted);
+      white-space: pre-wrap;
+    }
+    @media (max-width: 600px) {
+      .product-container {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a href="index.html" style="text-decoration:none; color: var(--accent); font-weight:bold;">← Back to Shop</a>
+
+  <div class="product-container" id="productContainer">
+    <!-- Product details loaded by JS -->
+  </div>
+
+  <script>
+    function getProductIdFromURL() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get('id');
+    }
+
+    function getProducts() {
+      return JSON.parse(localStorage.getItem('products')) || [];
+    }
+
+    function saveCart(cart) {
+      localStorage.setItem('cart', JSON.stringify(cart));
+    }
+
+    function getCart() {
+      return JSON.parse(localStorage.getItem('cart')) || [];
+    }
+
+    function addToCart(product) {
+      const cart = getCart();
+      const existing = cart.find(item => item.id === product.id);
+      if (existing) {
+        existing.quantity += 1;
+      } else {
+        cart.push({ id: product.id, quantity: 1 });
+      }
+      saveCart(cart);
+      alert(`${product.name} added to basket!`);
+    }
+
+    function redirectToCheckout(product) {
+      const email = prompt("Please enter your email before purchasing:");
+      if (!email || !validateEmail(email)) {
+        alert("Please enter a valid email.");
+        return;
+      }
+      // Save email for checkout usage
+      localStorage.setItem('checkoutEmail', email);
+
+      // Save cart with single product for direct Buy Now
+      localStorage.setItem('cart', JSON.stringify([{ id: product.id, quantity: 1 }]));
+
+      // Redirect to checkout page
+      window.location.href = "checkout.html";
+    }
+
+    function validateEmail(email) {
+      // Simple email validation
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    }
+
+    function displayProduct(product) {
+      if (!product) {
+        document.getElementById('productContainer').innerHTML = "<p>Product not found.</p>";
+        return;
+      }
+      document.title = `${product.name} | Plug & Play Shop`;
+
+      const container = document.getElementById('productContainer');
+      container.innerHTML = `
+        <img class="product-image" src="${product.image || 'placeholder.jpg'}" alt="${product.name}" />
+        <div class="product-info">
+          <h1>${product.name}</h1>
+          <div class="price">$${product.price.toFixed(2)}</div>
+          <div class="buttons">
+            <button class="btn-buy" id="buyNowBtn">Buy Now</button>
+            <button class="btn-add" id="addToBasketBtn">Add to Basket</button>
+          </div>
+          <hr />
+          <h2>Description</h2>
+          <div class="description">${product.description.replace(/\n/g, '<br>')}</div>
+        </div>
+      `;
+
+      document.getElementById('buyNowBtn').onclick = () => redirectToCheckout(product);
+      document.getElementById('addToBasketBtn').onclick = () => addToCart(product);
+    }
+
+    window.onload = () => {
+      const productId = getProductIdFromURL();
+      if (!productId) {
+        document.getElementById('productContainer').innerHTML = "<p>No product ID specified.</p>";
+        return;
+      }
+      const products = getProducts();
+      const product = products.find(p => p.id === productId && p.enabled);
+      displayProduct(product);
+    };
+  </script>
+</body>
+</html>
