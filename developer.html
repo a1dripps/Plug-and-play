@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Developer Panel - Plug & Play Shop</title>
+<link rel="stylesheet" href="style.css" />
+<script src="js/store.js" defer></script>
+<script src="js/developer.js" defer></script>
+<script src="js/themes.js" defer></script>
+</head>
+<body>
+  <header>
+    <h1>👨‍💻 Developer Panel</h1>
+    <nav>
+      <a href="index.html">🏪 Shop</a>
+      <a href="cart.html">🛒 Cart</a>
+      <a href="search.html">🔍 Search</a>
+      <a href="themes.html">🎨 Themes</a>
+    </nav>
+  </header>
+
+  <main id="devPanelMain" style="display:none; max-width: 1200px; margin: auto; padding: 1rem;">
+    <section>
+      <h2>Store Settings</h2>
+      <label>
+        Store Name: <input type="text" id="storeNameInput" />
+      </label>
+      <br /><br />
+      <label>
+        Business Email: <input type="email" id="businessEmailInput" />
+      </label>
+      <br /><br />
+      <label>
+        Delivery Disclaimer:<br />
+        <textarea id="deliveryDisclaimerInput" rows="3" style="width:100%;"></textarea>
+      </label>
+      <br /><br />
+      <label>
+        Custom Footer Message:<br />
+        <textarea id="footerMessageInput" rows="2" style="width:100%;"></textarea>
+      </label>
+      <br /><br />
+      <h3>SEO Meta Tags</h3>
+      <label>
+        Site Title: <input type="text" id="seoTitleInput" />
+      </label>
+      <br /><br />
+      <label>
+        Site Description:<br />
+        <textarea id="seoDescriptionInput" rows="3" style="width:100%;"></textarea>
+      </label>
+      <br /><br />
+    </section>
+
+    <section>
+      <h2>Theme & Design Control</h2>
+      <label>Font Size (Body): <input type="number" id="fontSizeBody" min="10" max="30" /> px</label><br/><br/>
+      <label>Font Size (Headers): <input type="number" id="fontSizeHeaders" min="10" max="40" /> px</label><br/><br/>
+      <label>Font Size (Buttons): <input type="number" id="fontSizeButtons" min="10" max="30" /> px</label><br/><br/>
+
+      <label>Spacing (Padding/Margin preset):
+        <select id="spacingPreset">
+          <option value="small">Small</option>
+          <option value="medium" selected>Medium</option>
+          <option value="large">Large</option>
+        </select>
+      </label>
+      <br /><br />
+
+      <label>Button Style:
+        <select id="buttonStyle">
+          <option value="flat" selected>Flat</option>
+          <option value="raised">Raised</option>
+          <option value="glow">Glow</option>
+          <option value="outlined">Outlined</option>
+        </select>
+      </label>
+      <br /><br />
+
+      <label><input type="checkbox" id="shadowToggle" /> Enable Shadows (Cards/Buttons)</label>
+    </section>
+
+    <section>
+      <h2>Product Management</h2>
+      <button id="addProductBtn">➕ Add New Product</button>
+      <button id="exportJsonBtn">Export Products (JSON)</button>
+      <button id="importJsonBtn">Import Products (JSON)</button>
+      <button id="resetDefaultsBtn" style="color:red;">Reset All to Defaults</button>
+      <input type="file" id="importFileInput" accept=".json" style="display:none;" />
+
+      <div id="productList"></div>
+    </section>
+  </main>
+
+  <main id="pinEntry" style="max-width: 400px; margin: auto; padding: 2rem; text-align:center;">
+    <h2>Enter Developer PIN</h2>
+    <input type="password" id="pinInput" maxlength="10" placeholder="PIN" style="font-size: 1.5rem; padding: 0.5rem;" />
+    <br /><br />
+    <button id="pinSubmitBtn">Unlock Developer Panel</button>
+    <p id="pinError" style="color: red; display:none;">Incorrect PIN, try again.</p>
+  </main>
+
+  <footer style="text-align:center; margin-top:2rem; font-size:0.9rem;">
+    <p>© 2025 Plug & Play Shop</p>
+  </footer>
+</body>
+</html>
