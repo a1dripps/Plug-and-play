@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en" class="theme-light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Plug & Play Shop</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="themes.js" defer></script>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem;
+      background: var(--primary);
+      color: white;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .hamburger {
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+    .site-title {
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+    .nav-right button {
+      margin-left: 0.5rem;
+      padding: 0.4rem 0.8rem;
+      font-size: 1rem;
+    }
+
+    .sidebar {
+      position: fixed;
+      top: 0; left: 0;
+      background: var(--card);
+      width: 230px;
+      height: 100vh;
+      padding: 1rem;
+      transform: translateX(-100%);
+      transition: 0.3s ease;
+      z-index: 20;
+    }
+    .sidebar.open {
+      transform: translateX(0);
+    }
+    .sidebar a {
+      display: block;
+      padding: 0.6rem 0;
+      font-weight: bold;
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .hero {
+      padding: 2rem;
+      text-align: center;
+    }
+    .hero h1 {
+      font-size: 1.8rem;
+    }
+    .hero button {
+      margin-top: 1rem;
+      font-size: 1.1rem;
+      padding: 0.7rem 1.4rem;
+    }
+
+    #products {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.2rem;
+      padding: 2rem;
+    }
+    .product-card {
+      background: var(--card);
+      padding: 1rem;
+      border-radius: 10px;
+      box-shadow: var(--shadow);
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .product-card:hover {
+      transform: scale(1.02);
+    }
+    .product-card h3 {
+      margin: 0.5rem 0;
+    }
+    .product-card p {
+      margin: 0.2rem 0;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1rem;
+      background: var(--footer);
+      color: white;
+      margin-top: 2rem;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="nav-left">
+      <div class="hamburger" onclick="toggleSidebar()">☰</div>
+      <div class="site-title">Plug & Play</div>
+    </div>
+    <div class="nav-right">
+      <button onclick="openLogin()">Login</button>
+      <button onclick="openSignup()">Sign Up</button>
+      <button onclick="viewCart()">🛒</button>
+    </div>
+  </header>
+
+  <div class="sidebar" id="sidebar">
+    <a href="#" onclick="scrollToSection('shop')">Shop</a>
+    <a href="search.html">Search</a>
+    <a href="support.html">Support</a>
+    <a href="themes.html">Themes</a>
+    <a href="developer.html">Developer</a>
+  </div>
+
+  <div class="hero">
+    <h1>Welcome to Plug & Play Shop where your dreams come to life</h1>
+    <button onclick="scrollToSection('shop')">Shop</button>
+  </div>
+
+  <section id="shop">
+    <div id="products"></div>
+  </section>
+
+  <footer>
+    &copy; Plug & Play Shop — All rights reserved
+  </footer>
+
+  <script>
+    function toggleSidebar() {
+      document.getElementById("sidebar").classList.toggle("open");
+    }
+
+    function scrollToSection(id) {
+      const el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: "smooth" });
+      toggleSidebar();
+    }
+
+    function openLogin() {
+      alert("Login form coming soon...");
+    }
+
+    function openSignup() {
+      alert("Signup form coming soon...");
+    }
+
+    function viewCart() {
+      alert("Cart coming soon...");
+    }
+
+    function loadProducts() {
+      const container = document.getElementById("products");
+      const data = JSON.parse(localStorage.getItem("products")) || [];
+
+      if (!data.length) {
+        container.innerHTML = "<p>No products found.</p>";
+        return;
+      }
+
+      container.innerHTML = "";
+      data.filter(p => p.enabled).forEach(prod => {
+        const div = document.createElement("div");
+        div.className = "product-card";
+        div.onclick = () => window.location.href = `product.html?id=${prod.id}`;
+
+        div.innerHTML = `
+          <h3>${prod.name}</h3>
+          <p>Type: ${prod.type === "account" ? "Game Account" : "Electronics"}</p>
+          <p>Price: $${prod.price}</p>
+          <p>Delivery: ${prod.deliveryTime}</p>
+        `;
+
+        container.appendChild(div);
+      });
+    }
+
+    window.onload = loadProducts;
+  </script>
+
+</body>
+</html>
