@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en" class="theme-light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Your Cart - Plug & Play Shop</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="store.js" defer></script>
+  <script src="themes.js" defer></script>
+  <style>
+    body {
+      max-width: 720px;
+      margin: auto;
+      padding: 1rem;
+      font-family: 'Orbitron', sans-serif;
+      background-color: var(--background);
+      color: var(--text);
+    }
+    h1 {
+      font-size: 2.4rem;
+      margin-bottom: 1rem;
+      text-align: center;
+      text-shadow: 0 0 6px var(--accent);
+    }
+    .cart-item {
+      display: flex;
+      align-items: center;
+      border: 1px solid var(--accent);
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      background-color: var(--card-bg);
+      box-shadow: 0 0 8px var(--shadow);
+    }
+    .cart-item img {
+      width: 90px;
+      height: 90px;
+      object-fit: cover;
+      border-radius: 6px;
+      margin-right: 1rem;
+      border: 2px solid var(--accent);
+    }
+    .item-info {
+      flex-grow: 1;
+    }
+    .item-name {
+      font-weight: 700;
+      font-size: 1.2rem;
+      margin-bottom: 0.3rem;
+    }
+    .item-price {
+      font-size: 1.1rem;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+    }
+    .item-quantity {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 0.4rem;
+    }
+    .item-quantity button {
+      font-size: 1.4rem;
+      width: 32px;
+      height: 32px;
+      background-color: var(--button-bg);
+      color: var(--button-text);
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      box-shadow: 0 0 5px var(--accent);
+      transition: background-color 0.3s ease;
+    }
+    .item-quantity button:hover {
+      background-color: var(--button-hover);
+    }
+    .item-quantity span {
+      font-size: 1.1rem;
+      width: 28px;
+      text-align: center;
+      font-weight: 600;
+    }
+    .remove-btn {
+      background: none;
+      border: none;
+      color: var(--danger);
+      font-size: 1.5rem;
+      cursor: pointer;
+      margin-left: 1rem;
+      font-weight: bold;
+      transition: color 0.3s ease;
+    }
+    .remove-btn:hover {
+      color: var(--danger-hover);
+    }
+    .cart-footer {
+      border-top: 2px solid var(--accent);
+      padding-top: 1rem;
+      text-align: right;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--accent);
+      margin-top: 2rem;
+    }
+    .checkout-btn {
+      display: block;
+      margin: 2rem auto 0;
+      padding: 1rem 2rem;
+      background-color: var(--accent);
+      color: var(--button-text);
+      font-size: 1.5rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      box-shadow: 0 0 10px var(--accent);
+      transition: background-color 0.3s ease;
+      max-width: 300px;
+      text-align: center;
+      text-decoration: none;
+    }
+    .checkout-btn:hover {
+      background-color: var(--accent-hover);
+    }
+    .empty-cart {
+      text-align: center;
+      font-size: 1.4rem;
+      margin-top: 3rem;
+      color: var(--text-muted);
+    }
+  </style>
+</head>
+<body>
+  <h1>Your Shopping Cart</h1>
+
+  <div id="cartItemsContainer"></div>
+
+  <div id="cartFooter" class="cart-footer" style="display:none;"></div>
+
+  <a href="checkout.html" id="checkoutBtn" class="checkout-btn" style="display:none;">Proceed to Checkout</a>
+
+  <div id="emptyCartMessage" class="empty-cart" style="display:none;">Your cart is empty.</div>
+
+  <script>
+    const cartKey = 'plugAndPlayCart';
+
+    function loadCart() {
+      const cartData = localStorage.getItem(cartKey);
+      return cartData ? JSON.parse(cartData) : [];
+    }
+
+    function saveCart(cart) {
+      localStorage.setItem(cartKey, JSON.stringify(cart));
+    }
+
+    function formatPrice(num) {
+      return '$' + num.toFixed(2);
+    }
+
+    function renderCart() {
+      const cart = loadCart();
+      const container = document.getElementById('cartItemsContainer');
+      const footer = document.getElementById('cartFooter');
+      const checkoutBtn = document.getElementById('checkoutBtn');
+      const emptyMsg = document.getElementById('emptyCartMessage');
+
+      container.innerHTML = '';
+      if (cart.length === 0) {
+        footer.style.display = 'none';
+        checkoutBtn.style.display = 'none';
+        emptyMsg.style.display = 'block';
+        return;
+      }
+      emptyMsg.style.display = 'none';
+
+      let total = 0;
+
+      cart.forEach((item, idx) => {
+        total += item.price * item.quantity;
+
+        const itemDiv = document.createElement('div');
+        itemDiv.className = 'cart-item';
+
+        itemDiv.innerHTML = `
+          <img src="${item.image || 'https://via.placeholder.com/90?text=No+Image'}" alt="${item.name}" />
+          <div class="item-info">
+            <div class="item-name">${item.name}</div>
+            <div class="item-price">${formatPrice(item.price)}</div>
+            <div class="item-quantity">
+              <button class="qty-decrease" data-index="${idx}">−</button>
+              <span>${item.quantity}</span>
+              <button class="qty-increase" data-index="${idx}">+</button>
+              <button class="remove-btn" data-index="${idx}" title="Remove Item">&times;</button>
+            </div>
+          </div>
+        `;
+
+        container.appendChild(itemDiv);
+      });
+
+      footer.style.display = 'block';
+      footer.textContent = `Total: ${formatPrice(total)}`;
+      checkoutBtn.style.display = 'inline-block';
+
+      // Attach event listeners for quantity and remove buttons
+      container.querySelectorAll('.qty-increase').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const index = parseInt(btn.dataset.index);
+          cart[index].quantity++;
+          saveCart(cart);
+          renderCart();
+        });
+      });
+
+      container.querySelectorAll('.qty-decrease').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const index = parseInt(btn.dataset.index);
+          if (cart[index].quantity > 1) {
+            cart[index].quantity--;
+          } else {
+            if(confirm('Remove this item from the cart?')) {
+              cart.splice(index, 1);
+            }
+          }
+          saveCart(cart);
+          renderCart();
+        });
+      });
+
+      container.querySelectorAll('.remove-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const index = parseInt(btn.dataset.index);
+          if(confirm('Remove this item from the cart?')) {
+            cart.splice(index, 1);
+            saveCart(cart);
+            renderCart();
+          }
+        });
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      renderCart();
+    });
+  </script>
+</body>
+</html>
