@@ -107,6 +107,37 @@
     document.getElementById('loginPopup').style.display = 'none';
   }
 </script>
+<script>
+  // Sample product data matching your displayed products
+  const products = [
+    {id:1, name:"PlayStation 5 Console", price:499.99},
+    {id:2, name:"Fortnite OG Account", price:199.99},
+    {id:3, name:"Gaming Keyboard (RGB)", price:89.99},
+    {id:4, name:"Rare Minecraft Account", price:149.99},
+    {id:5, name:"Wireless Gaming Headset", price:129.99}
+  ];
 
+  // Add event listeners after page loads
+  document.addEventListener('DOMContentLoaded', () => {
+    const addButtons = document.querySelectorAll('.product button:first-child');
+    addButtons.forEach((btn, i) => {
+      btn.addEventListener('click', () => {
+        addToBasket(products[i]);
+        alert(products[i].name + " added to basket!");
+      });
+    });
+  });
+
+  function addToBasket(product) {
+    let basket = JSON.parse(localStorage.getItem('basket')) || [];
+    const existing = basket.find(item => item.id === product.id);
+    if(existing) {
+      existing.qty++;
+    } else {
+      basket.push({...product, qty:1});
+    }
+    localStorage.setItem('basket', JSON.stringify(basket));
+  }
+</script>
 </body>
 </html>
