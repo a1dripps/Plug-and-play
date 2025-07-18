@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en" class="theme-light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Developer Panel - Plug & Play Shop</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      max-width: 900px;
+      margin: auto;
+      padding: 1rem;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: var(--bg);
+      color: var(--fg);
+    }
+    h1, h2, h3 {
+      margin-top: 1rem;
+    }
+    #loginSection, #panelSection {
+      border: 2px solid var(--accent);
+      border-radius: 8px;
+      padding: 1rem;
+      background: var(--panel-bg);
+    }
+    label {
+      display: block;
+      margin: 0.5rem 0 0.25rem;
+    }
+    input[type=text], input[type=email], input[type=number], select, textarea {
+      width: 100%;
+      padding: 0.5rem;
+      font-size: 1rem;
+      border: 1px solid var(--accent);
+      border-radius: 4px;
+      background: var(--input-bg);
+      color: var(--fg);
+      box-sizing: border-box;
+    }
+    textarea {
+      resize: vertical;
+    }
+    button {
+      margin-top: 0.7rem;
+      padding: 0.7rem 1.2rem;
+      font-size: 1rem;
+      cursor: pointer;
+      border: none;
+      border-radius: 5px;
+      background-color: var(--accent);
+      color: var(--button-fg);
+      transition: background-color 0.3s;
+    }
+    button:hover {
+      background-color: var(--accent-hover);
+    }
+    .hidden {
+      display: none;
+    }
+    .product-edit {
+      border: 1px solid var(--accent);
+      padding: 1rem;
+      margin-top: 1rem;
+      border-radius: 6px;
+      background: var(--panel-bg-alt);
+    }
+    .product-edit > h3 {
+      margin-top: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .prod-controls button {
+      margin-left: 0.3rem;
+      font-size: 0.9rem;
+      padding: 0.3rem 0.6rem;
+      background: var(--button-secondary-bg);
+      color: var(--button-secondary-fg);
+      border-radius: 4px;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+    .prod-controls button:hover {
+      background: var(--button-secondary-hover);
+    }
+    .flex-row {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .flex-row > * {
+      flex: 1;
+      min-width: 150px;
+    }
+    .top-controls {
+      margin-bottom: 1rem;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .top-controls button {
+      flex: none;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid var(--accent);
+      margin: 1rem 0;
+    }
+    input[type=file] {
+      padding: 0.2rem;
+    }
+    /* Color variables for light theme as default */
+    :root {
+      --bg: #fefefe;
+      --fg: #222;
+      --accent: #0077ff;
+      --accent-hover: #005fcc;
+      --panel-bg: #e6f0ff;
+      --panel-bg-alt: #d0e2ff;
+      --input-bg: #fff;
+      --button-fg: #fff;
+      --button-secondary-bg: #ddd;
+      --button-secondary-fg: #333;
+      --button-secondary-hover: #bbb;
+    }
+  </style>
+</head>
+<body>
+  <h1>Developer Panel - Plug & Play Shop</h1>
+
+  <section id="loginSection">
+    <h2>Enter PIN to unlock panel</h2>
+    <input type="password" id="pinInput" placeholder="Enter PIN" />
+    <button id="pinSubmitBtn">Unlock</button>
+    <p id="pinError" style="color: red; display: none;">Incorrect PIN. Try again.</p>
+  </section>
+
+  <section id="panelSection" class="hidden" aria-hidden="true">
+    <h2>Store Settings</h2>
+    <label for="storeNameInput">Store Name:</label>
+    <input type="text" id="storeNameInput" placeholder="Plug & Play Shop" />
+
+    <label for="businessEmailInput">Business Email:</label>
+    <input type="email" id="businessEmailInput" placeholder="support@plugandplayshop.com" />
+
+    <label for="deliveryDisclaimerInput">Delivery Disclaimer (appears on checkout):</label>
+    <textarea id="deliveryDisclaimerInput" rows="2" placeholder="All delivery times are estimates..."></textarea>
+
+    <label for="footerMessageInput">Footer Message (HTML allowed):</label>
+    <textarea id="footerMessageInput" rows="2" placeholder="All sales final. Contact support for help."></textarea>
+
+    <h2>SEO Meta Tags</h2>
+    <label for="seoTitleInput">Site Title:</label>
+    <input type="text" id="seoTitleInput" placeholder="Plug & Play Shop" />
+
+    <label for="seoDescriptionInput">Site Description:</label>
+    <textarea id="seoDescriptionInput" rows="2" placeholder="Your dream gaming store."></textarea>
+
+    <h2>Design Controls</h2>
+    <label for="fontBodySize">Body Font Size (px):</label>
+    <input type="number" id="fontBodySize" min="10" max="30" value="16" />
+
+    <label for="fontHeaderSize">Header Font Size (px):</label>
+    <input type="number" id="fontHeaderSize" min="14" max="48" value="24" />
+
+    <label for="fontButtonSize">Button Font Size (px):</label>
+    <input type="number" id="fontButtonSize" min="10" max="30" value="16" />
+
+    <label for="spacingPreset">Spacing Preset:</label>
+    <select id="spacingPreset">
+      <option value="small">Small (tight)</option>
+      <option value="medium" selected>Medium (default)</option>
+      <option value="large">Large (airy)</option>
+    </select>
+
+    <label for="buttonStyle">Button Style:</label>
+    <select id="buttonStyle">
+      <option value="flat">Flat</option>
+      <option value="raised" selected>Raised</option>
+      <option value="glow">Glow</option>
+      <option value="outlined">Outlined</option>
+    </select>
+
+    <label><input type="checkbox" id="shadowToggle" checked /> Enable shadows on cards/buttons</label>
+
+    <hr />
+
+    <h2>Products</h2>
+    <button id="addProductBtn">+ Add New Product</button>
+    <div id="productsContainer"></div>
+
+    <hr />
+
+    <h2>Export / Import</h2>
+    <button id="exportBtn">Export Products JSON</button>
+    <input type="file" id="importFileInput" accept=".json" />
+    <button id="importBtn">Import Products JSON</button>
+
+    <hr />
+
+    <button id="resetBtn" style="background-color: #cc4444;">Reset to Defaults</button>
+    <button id="saveBtn" style="float: right;">Save All Changes</button>
+  </section>
+
+<script>
+(() => {
+  const PIN_CODE = "7391";
+  const PIN_INPUT = document.getElementById('pinInput');
+  const PIN_SUBMIT_BTN = document.getElementById('pinSubmitBtn');
+  const PIN_ERROR = document.getElementById('pinError');
+  const PANEL_SECTION = document.getElementById('panelSection');
+  const LOGIN_SECTION = document.getElementById('loginSection');
+
+  // Keys for localStorage
+  const PRODUCTS_KEY = 'products';
+  const EMAIL_KEY = 'businessEmail';
+  const STORE_NAME_KEY = 'storeName';
+  const DELIVERY_DISCLAIMER_KEY = 'deliveryDisclaimer';
+  const FOOTER_MSG_KEY = 'footerMessage';
+  const SEO_TITLE_KEY = 'seoTitle';
+  const SEO_DESC_KEY = 'seoDescription';
+  const FONT_BODY_SIZE_KEY = 'fontBodySize';
+  const FONT_HEADER_SIZE_KEY = 'fontHeaderSize
