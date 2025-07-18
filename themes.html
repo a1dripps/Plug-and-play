@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Themes - Plug & Play Shop</title>
+<link rel="stylesheet" href="style.css" />
+<script defer src="js/themes.js"></script>
+</head>
+<body>
+
+<header>
+  <nav class="top-nav">
+    <a href="index.html" class="logo">Plug & Play Shop</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Shop</a></li>
+      <li><a href="search.html">Search</a></li>
+      <li><a href="support.html">Support</a></li>
+      <li><a href="themes.html" class="active">Themes</a></li>
+      <li><a href="developer.html">Developer</a></li>
+      <li><a href="login.html">Log In</a></li>
+      <li><a href="cart.html" class="cart-link">Cart (<span id="cartCount">0</span>)</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main>
+  <section id="themes-section">
+    <h1>Themes</h1>
+    <p>Select your favorite theme below and click "Save Theme" to apply it across the site.</p>
+
+    <form id="themeForm">
+      <label>
+        <input type="radio" name="theme" value="light" /> Light (Default)
+      </label><br />
+      <label>
+        <input type="radio" name="theme" value="neon-blue" /> Neon Blue
+      </label><br />
+      <label>
+        <input type="radio" name="theme" value="dark-neon-red" /> Dark Neon Red
+      </label><br />
+
+      <button type="submit">Save Theme</button>
+    </form>
+
+    <section id="themePreview" style="margin-top: 20px; padding: 20px; border: 1px solid #ccc; border-radius: 10px;">
+      <h2>Live Preview</h2>
+      <p>This preview area updates to show the selected theme's colors and style.</p>
+    </section>
+  </section>
+</main>
+
+<footer>
+  <p id="footerMessage">© 2025 Plug & Play Shop. All rights reserved.</p>
+</footer>
+
+</body>
+</html>
