@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en" class="theme-light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Checkout - Plug & Play Shop</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="themes.js" defer></script>
+  <style>
+    body {
+      font-family: 'Orbitron', sans-serif;
+      max-width: 700px;
+      margin: auto;
+      padding: 2rem 1rem;
+      background: var(--bg);
+      color: var(--text);
+    }
+    h1 {
+      font-size: 2rem;
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+    label {
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+    input[type="email"], input[type="text"], input[type="tel"] {
+      padding: 0.8rem 1rem;
+      font-size: 1.1rem;
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      background: var(--input-bg);
+      color: var(--text);
+      width: 100%;
+      box-sizing: border-box;
+      transition: border-color 0.3s ease;
+    }
+    input[type="email"]:focus, input[type="text"]:focus, input[type="tel"]:focus {
+      border-color: #00c853;
+      outline: none;
+    }
+    button {
+      padding: 1rem;
+      font-size: 1.25rem;
+      font-weight: 700;
+      background: #00c853;
+      border: none;
+      border-radius: 10px;
+      color: white;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      margin-top: 1rem;
+    }
+    button:disabled {
+      background: #777;
+      cursor: not-allowed;
+    }
+    .info-text {
+      font-size: 0.9rem;
+      color: var(--text-muted, #bbb);
+      margin-top: -1rem;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    @media (max-width: 500px) {
+      body {
+        padding: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>Complete Your Purchase</h1>
+
+  <form id="checkoutForm">
+    <label for="email">Email Address</label>
+    <input type="email" id="email" placeholder="you@example.com" required />
+
+    <label for="name">Full Name</label>
+    <input type="text" id="name" placeholder="John Doe" required />
+
+    <label for="phone">Phone Number (optional)</label>
+    <input type="tel" id="phone" placeholder="+1 234 567 890" />
+
+    <div class="info-text">
+      After you click "Pay Now," you will be redirected to Stripe to complete your payment.
+    </div>
+
+    <button type="submit" id="payButton">Pay Now</button>
+  </form>
+
+  <script>
+    // Load cart items from localStorage
+    const cartKey = 'cart';
+    const productsKey = 'products';
+
+    function getCart() {
+      return JSON.parse(localStorage.getItem(cartKey)) || [];
+    }
+
+    function getProducts() {
+      return JSON.parse(localStorage.getItem(productsKey)) || [];
+    }
+
+    function calculateTotal(cart, products) {
+      let total = 0;
+      for (const item of cart) {
+        const prod = products.find(p => p.id === item.id);
+        if (prod) {
+          total += prod.price * item.quantity;
+        }
+      }
+      return total.toFixed(2);
+    }
+
+    const form = document.getElementById('checkoutForm');
+    const payButton = document.getElementById('payButton');
+
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+
+      const email = document.getElementById('email').value.trim();
+      const name = document.getElementById('name').value.trim();
+      if (!email.includes('@')) {
+        alert('Please enter a valid email address.');
+        return;
+      }
+      if (!name) {
+        alert('Please enter your full name.');
+        return;
+      }
+
+      const cart = getCart();
+      if (cart.length === 0) {
+        alert('Your cart is empty!');
+        return;
+      }
+
+      const products = getProducts();
+      const total = calculateTotal(cart, products);
+
+      // For demo, just alert and clear cart. Replace with your Stripe integration.
+      alert(`Thank you, ${name}! Your total is $${total}. Redirecting to payment...`);
+
+      // Here you should do your Stripe redirect/payment process
+      // e.g., window.location.href = yourStripeCheckoutURL;
+
+      localStorage.removeItem(cartKey);
+      window.location.href = 'index.html'; // Redirect back home or order confirmation
+    });
+  </script>
+</body>
+</html>
