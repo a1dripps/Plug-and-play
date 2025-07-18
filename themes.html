@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en" class="theme-light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Themes - Plug & Play Shop</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="themes.js" defer></script>
+  <style>
+    body {
+      font-family: 'Orbitron', sans-serif;
+      max-width: 800px;
+      margin: 3rem auto;
+      padding: 1rem 2rem;
+      background-color: var(--background);
+      color: var(--text);
+    }
+    h1 {
+      text-align: center;
+      color: var(--accent);
+      font-size: 3rem;
+      text-shadow: 0 0 15px var(--accent);
+      margin-bottom: 2rem;
+    }
+    .theme-option {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      cursor: pointer;
+      border: 2px solid transparent;
+      border-radius: 8px;
+      padding: 1rem;
+      transition: border-color 0.3s ease;
+      background-color: var(--card-background);
+      box-shadow: 0 0 15px var(--shadow);
+    }
+    .theme-option:hover {
+      border-color: var(--accent);
+    }
+    .theme-option input[type="radio"] {
+      margin-right: 1rem;
+      cursor: pointer;
+    }
+    .theme-preview {
+      flex-grow: 1;
+      font-weight: 700;
+      font-size: 1.3rem;
+      color: var(--text);
+    }
+    button#saveThemeBtn {
+      display: block;
+      margin: 3rem auto 0;
+      padding: 0.8rem 2rem;
+      font-size: 1.4rem;
+      background-color: var(--accent);
+      color: var(--background);
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      box-shadow: 0 0 20px var(--accent);
+      transition: background-color 0.3s ease;
+    }
+    button#saveThemeBtn:hover {
+      background-color: var(--accent-hover);
+    }
+  </style>
+</head>
+<body>
+  <h1>Choose Your Theme</h1>
+
+  <label class="theme-option" for="theme-light">
+    <input type="radio" name="theme" id="theme-light" value="theme-light" />
+    <div class="theme-preview" style="background:#fff; color:#000; padding:0.5rem; border-radius: 4px;">
+      Light Theme — clean & bright
+    </div>
+  </label>
+
+  <label class="theme-option" for="theme-neon-blue">
+    <input type="radio" name="theme" id="theme-neon-blue" value="theme-neon-blue" />
+    <div class="theme-preview" style="background:#001f3f; color:#00dfff; padding:0.5rem; border-radius: 4px;">
+      Neon Blue Theme — cool & futuristic
+    </div>
+  </label>
+
+  <label class="theme-option" for="theme-dark-neon-red">
+    <input type="radio" name="theme" id="theme-dark-neon-red" value="theme-dark-neon-red" />
+    <div class="theme-preview" style="background:#200000; color:#ff0033; padding:0.5rem; border-radius: 4px;">
+      Dark Neon Red — bold & intense
+    </div>
+  </label>
+
+  <button id="saveThemeBtn">Save Theme</button>
+
+  <script>
+    // Load saved theme or default to light
+    const savedTheme = localStorage.getItem('defaultTheme') || 'theme-light';
+
+    function applyTheme(theme) {
+      document.documentElement.className = theme;
+    }
+
+    function setRadioChecked(theme) {
+      const radio = document.querySelector(`input[value="${theme}"]`);
+      if (radio) radio.checked = true;
+    }
+
+    // Initialize
+    applyTheme(savedTheme);
+    setRadioChecked(savedTheme);
+
+    // Listen for changes
+    document.querySelectorAll('input[name="theme"]').forEach(input => {
+      input.addEventListener('change', e => {
+        applyTheme(e.target.value);
+      });
+    });
+
+    // Save theme on button click
+    document.getElementById('saveThemeBtn').addEventListener('click', () => {
+      const selectedTheme = document.querySelector('input[name="theme"]:checked').value;
+      localStorage.setItem('defaultTheme', selectedTheme);
+      alert(`Theme "${selectedTheme.replace('theme-', '').replace(/-/g, ' ')}" saved! Reload pages to see effect.`);
+    });
+  </script>
+</body>
+</html>
